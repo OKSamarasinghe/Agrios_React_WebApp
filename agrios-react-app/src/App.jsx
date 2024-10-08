@@ -1,14 +1,20 @@
-import { useState } from 'react'
-import './App.css'
+// src/App.jsx
 
-function App() {
+import React from 'react';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Footer from './components/Footer';
 
+const App = () => {
   return (
-    <>
-      <h1 className='text-green-600 '>agrios app</h1>
-      
-    </>
-  )
-}
+    <div className="w-full min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-grow">
+        <Home />
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
-export default App
+export default App;
