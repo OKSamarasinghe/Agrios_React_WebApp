@@ -8,6 +8,7 @@ import MarketImage from '../assets/images/market.jpg';
 import Farmer1Image from '../assets/images/farmer1.jpg';
 import Farmer2Image from '../assets/images/farmer2.jpg';
 import Farmer3Image from '../assets/images/farmer3.jpg';
+import FAQ from './FAQ';
 
 
 const AboutUs = () => {
@@ -16,6 +17,9 @@ const AboutUs = () => {
   // Handle redirection for Help & Support
   const handleHelpSupportClick = () => {
     navigate('/help'); // Redirect to /help route
+  };
+  const FAQ = () => {
+    navigate('/faq'); // Redirect to /faq route
   };
 
   return (
@@ -45,7 +49,7 @@ const AboutUs = () => {
             <div className="flex space-x-4">
               <button className="bg-green-500 text-white px-4 py-2 rounded-lg"  onClick={handleHelpSupportClick} // Redirect when clicked
               >Help & Support</button>
-              <button className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg">FAQ</button>
+              <button className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg" onClick={FAQ}>FAQ</button>
             </div>
           </div>
         </div>
