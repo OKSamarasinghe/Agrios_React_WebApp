@@ -7,6 +7,10 @@ import Home from './pages/Home.jsx'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 import AboutUs from './pages/AboutUs.jsx'
+import Services from './pages/Services.jsx'
+import News from './pages/News.jsx'
+import Shop from './pages/Shop.jsx'
+import Contact from './pages/Contact.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,7 +19,10 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path='/'element={<Home />} />
         <Route path='/about' element={<AboutUs />} />
-        
+        <Route path='/services' element={<Services/>}/>  
+        <Route path='/news' element={<News/>}/>   
+        <Route path='/shop' element={<Shop/>}/>  
+        <Route path='/contact' element={<Contact/>}/>
       </Routes>
       <Footer />
     </Router>
