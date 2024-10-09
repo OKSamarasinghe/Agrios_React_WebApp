@@ -13,6 +13,8 @@ import Shop from './pages/Shop.jsx'
 import Contact from './pages/Contact.jsx'
 import HelpSupport from './pages/HelpSupport.jsx'
 import FAQ from './pages/FAQ.jsx'
+import Registration from './pages/Registration.jsx'
+import Login from './pages/Login.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -27,6 +29,8 @@ createRoot(document.getElementById('root')).render(
         <Route path='/contact' element={<Contact/>}/>
         <Route path='/help' element={<HelpSupport/>}/>
         <Route path='/faq' element={<FAQ/>}/>
+        <Route path='/register' element={<Registration/>}/>
+        <Route path='/login' element={<Login/>}/>
       </Routes>
       <Footer />
     </Router>
