@@ -12,12 +12,12 @@ const Navbar = () => {
           Agrios
         </a>
         <ul className="flex space-x-6 text-white">
-          <li><a href="#" className="hover:underline">Home</a></li>
-          <li><a href="#" className="hover:underline">About</a></li>
-          <li><a href="#" className="hover:underline">Services</a></li>
-          <li><a href="#" className="hover:underline">News</a></li>
-          <li><a href="#" className="hover:underline">Shop</a></li>
-          <li><a href="#" className="hover:underline">Contact</a></li>
+          <li><a href="/" className="hover:underline">Home</a></li>
+          <li><a href="/about" className="hover:underline">About</a></li>
+          <li><a href="/services" className="hover:underline">Services</a></li>
+          <li><a href="/news" className="hover:underline">News</a></li>
+          <li><a href="/shop" className="hover:underline">Shop</a></li>
+          <li><a href="/contact" className="hover:underline">Contact</a></li>
         </ul>
         <div className="space-x-4">
           <button className="text-white border-white border-2 px-3 py-1 rounded">Sign In</button>
