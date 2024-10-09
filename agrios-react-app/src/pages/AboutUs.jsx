@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+
+
 import AboutUsImage from '../assets/images/aboutUs2.jpg';
 import MarketImage from '../assets/images/market.jpg';
 import Farmer1Image from '../assets/images/farmer1.jpg';
@@ -8,6 +11,13 @@ import Farmer3Image from '../assets/images/farmer3.jpg';
 
 
 const AboutUs = () => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+  // Handle redirection for Help & Support
+  const handleHelpSupportClick = () => {
+    navigate('/help'); // Redirect to /help route
+  };
+
   return (
     <div className="bg-white">
       {/* Hero Section */}
@@ -33,7 +43,8 @@ const AboutUs = () => {
               <li>Supporting local farmers and sustainable agriculture</li>
             </ul>
             <div className="flex space-x-4">
-              <button className="bg-green-500 text-white px-4 py-2 rounded-lg">Discover More</button>
+              <button className="bg-green-500 text-white px-4 py-2 rounded-lg"  onClick={handleHelpSupportClick} // Redirect when clicked
+              >Help & Support</button>
               <button className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg">FAQ</button>
             </div>
           </div>

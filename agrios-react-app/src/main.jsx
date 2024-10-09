@@ -11,6 +11,7 @@ import Services from './pages/Services.jsx'
 import News from './pages/News.jsx'
 import Shop from './pages/Shop.jsx'
 import Contact from './pages/Contact.jsx'
+import HelpSupport from './pages/HelpSupport.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')).render(
         <Route path='/news' element={<News/>}/>   
         <Route path='/shop' element={<Shop/>}/>  
         <Route path='/contact' element={<Contact/>}/>
+        <Route path='/help' element={<HelpSupport/>}/>
       </Routes>
       <Footer />
     </Router>
