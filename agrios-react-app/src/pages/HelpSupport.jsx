@@ -2,10 +2,13 @@ import React from 'react';
 
 import HelpImage from '../assets/images/helpimg2.jpg';
 import HelpImage2 from '../assets/images/helpimg.jpg';
+import Navbar from '../components/Navbar';
 
 
 const HelpSupport = () => {
   return (
+    <div>
+      <Navbar/>
     <div className="container mx-auto px-4 py-10">
       {/* FAQ Banner */}
       <div className="relative w-full h-64 bg-cover bg-center" style={{ backgroundImage: `url(${HelpImage})` }}>
@@ -75,6 +78,7 @@ const HelpSupport = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

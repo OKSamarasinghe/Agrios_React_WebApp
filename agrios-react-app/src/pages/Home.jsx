@@ -19,10 +19,12 @@ import storeIcon from '../assets/images/storeIcon.png'
 import premiumIcon from '../assets/images/premiumImg.png'
 import organicFrmImgIcon from '../assets/images/organicFrmImg.jpg'
 import secondHeroImage from '../assets/images/secondHero2.jpg'
+import Navbar from '../components/Navbar';
 
 const Home = () => {
   return (
     <div>
+      <Navbar />
       {/* Hero Section */}
       <section className="relative h-screen bg-cover bg-center" style={{ backgroundImage: `url(${heroImage})` }}>
         <div className="absolute inset-0 bg-black bg-opacity-0"></div>

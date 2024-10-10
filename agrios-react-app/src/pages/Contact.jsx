@@ -1,7 +1,10 @@
 import React from 'react';
+import Navbar from '../components/Navbar';
 
 const Contact = () => {
   return (
+    <div>
+      <Navbar />
     <div className="py-10 px-5">
       {/* Contact Title */}
       <h1 className="text-3xl font-bold text-center mb-6">Contact</h1>
@@ -86,6 +89,7 @@ const Contact = () => {
           </button>
         </form>
       </div>
+    </div>
     </div>
   );
 };

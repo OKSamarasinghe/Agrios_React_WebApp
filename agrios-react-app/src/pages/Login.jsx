@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AgriosLogo from '../assets/images/agriosLogo.png';
 import GoogleIcon from '../assets/images/GoogleIcon.png';
+import Navbar from '../components/Navbar';
 
 const Login = () => {
   const [accountType, setAccountType] = useState("Customer");
@@ -10,6 +11,8 @@ const Login = () => {
   };
 
   return (
+    <div>
+      <Navbar />
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md p-8 space-y-8 bg-white shadow-lg rounded-lg">
         <div className="text-center">
@@ -102,6 +105,7 @@ const Login = () => {
           </div>
         </form>
       </div>
+    </div>
     </div>
   );
 };

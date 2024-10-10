@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AgriosLogo from '../assets/images/agriosLogo.png';
+import Navbar from '../components/Navbar';
 
 const Registration = () => {
   // State to manage form fields
@@ -27,6 +28,8 @@ const Registration = () => {
   };
 
   return (
+    <div>
+      <Navbar />
     <div className="flex justify-center items-center min-h-screen bg-gray-100 py-12"> {/* Updated this line */}
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
         {/* Logo */}
@@ -151,6 +154,7 @@ const Registration = () => {
           </p>
         </div>
       </div>
+    </div>
     </div>
   );
 };
