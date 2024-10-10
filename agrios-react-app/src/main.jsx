@@ -19,7 +19,6 @@ import Login from './pages/Login.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Router>
-      <Navbar />
       <Routes>
         <Route path='/'element={<Home />} />
         <Route path='/about' element={<AboutUs />} />

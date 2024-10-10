@@ -9,6 +9,7 @@ import Farmer1Image from '../assets/images/farmer1.jpg';
 import Farmer2Image from '../assets/images/farmer2.jpg';
 import Farmer3Image from '../assets/images/farmer3.jpg';
 import FAQ from './FAQ';
+import Navbar from '../components/Navbar';
 
 
 const AboutUs = () => {
@@ -24,6 +25,7 @@ const AboutUs = () => {
 
   return (
     <div className="bg-white">
+      <Navbar />
       {/* Hero Section */}
       <section className="relative w-full h-96 bg-cover bg-center" style={{ backgroundImage: `url(${AboutUsImage})` }}>
         <div className="absolute inset-0 bg-black opacity-30"></div>

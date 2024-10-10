@@ -9,10 +9,12 @@ import DeliveryGuyImage from '../assets/images/deliveryGuy.jpg';
 import HarvestImage from '../assets/images/harvestimg2.jpg';
 import MaintainImage from '../assets/images/maintainimg.jpg';
 import FencingImage from '../assets/images/fencingimg.jpg';
+import Navbar from "../components/Navbar";
 
 const Services = () => {
   return (
     <div className="bg-white">
+      <Navbar />
       {/* Banner Section */}
       <div className="relative bg-cover bg-center h-96" style={{ backgroundImage: `url(${ServiceImg})` }}>
         <div className="absolute inset-0 bg-black opacity-50"></div>
