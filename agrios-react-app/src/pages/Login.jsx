@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AgriosLogo from '../assets/images/agriosLogo.png';
+import GoogleIcon from '../assets/images/GoogleIcon.png';
 
 const Login = () => {
   const [accountType, setAccountType] = useState("Customer");
@@ -12,11 +14,11 @@ const Login = () => {
       <div className="w-full max-w-md p-8 space-y-8 bg-white shadow-lg rounded-lg">
         <div className="text-center">
           <img 
-            src="/path/to/your/logo.png" 
+            src={AgriosLogo} 
             alt="Logo" 
             className="mx-auto h-12 w-auto"
           />
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Log in to your account</h2>
+          <h2 className="mt-6 text-3xl font-bold text-green-800 ">Log in to your account</h2>
           <p className="mt-2 text-sm text-gray-600">
             Welcome back! Please enter your details.
           </p>
@@ -84,7 +86,7 @@ const Login = () => {
               className="group flex justify-center py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
             >
               <img
-                src="/path/to/google-icon.png"
+                src={GoogleIcon}
                 alt="Google icon"
                 className="w-5 h-5 mr-2"
               />
@@ -95,7 +97,7 @@ const Login = () => {
           <div className="text-sm text-center mt-4">
             <p>
               Don't have an account?{" "}
-              <a href="#" className="font-medium text-green-600 hover:text-green-500">Sign up</a>
+              <a href="/register" className="font-medium text-green-600 hover:text-green-500">Sign up</a>
             </p>
           </div>
         </form>

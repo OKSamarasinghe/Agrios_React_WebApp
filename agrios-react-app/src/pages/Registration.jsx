@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import AgriosLogo from '../assets/images/agriosLogo.png';
 
 const Registration = () => {
   // State to manage form fields
@@ -26,19 +27,19 @@ const Registration = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 py-12"> {/* Updated this line */}
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
         {/* Logo */}
         <div className="flex justify-center mb-6">
           <img
-            src="/path-to-logo.png" // Replace with actual logo path
+            src={AgriosLogo}
             alt="Logo"
             className="h-10"
           />
         </div>
 
         {/* Heading */}
-        <h2 className="text-2xl font-semibold text-center mb-4">Sign up to your account</h2>
+        <h2 className="text-3xl font-bold text-center mb-4 text-green-800">Sign up to your account</h2>
         <p className="text-gray-500 text-center mb-6">Welcome! Please enter your details.</p>
 
         {/* Form */}
@@ -144,7 +145,7 @@ const Registration = () => {
         <div className="text-center mt-4">
           <p className="text-sm text-gray-500">
             Have an account?{' '}
-            <a href="/login" className="text-green-500 hover:underline">
+            <a href="/login" className="text-green-500 hover:underline font-medium">
               Log In
             </a>
           </p>
