@@ -12,7 +12,7 @@ const News = () => {
       {/* This will display your header */}
       
       {/* News Banner Section */}
-      <div className="relative h-64 bg-cover bg-center" style={{ backgroundImage: `url(${BannerImage})` }}>
+      <div className="relative h-96 bg-cover bg-center" style={{ backgroundImage: `url(${BannerImage})` }}>
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="absolute inset-0 flex items-center justify-center">
           <h1 className="text-white text-4xl font-bold">Our News</h1>
