@@ -1,6 +1,7 @@
 import React from 'react';
 import BannerImage from '../assets/images/News_banner.jpg'; // Use the same banner image
 import { useLocation } from 'react-router-dom'; // To pass data between pages
+import Navbar from '../components/Navbar';
 
 const Checkout = () => {
   const location = useLocation();
@@ -14,6 +15,8 @@ const Checkout = () => {
   const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
+    <div>
+    <Navbar/>
     <div className="py-0 px-0">
       {/* Banner Section */}
       <div
@@ -83,6 +86,7 @@ const Checkout = () => {
         <div className="mt-6 text-center">
           <button className="bg-blue-500 text-white px-6 py-2 rounded">Proceed to Pay</button>
         </div>
+      </div>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import BannerImage from '../assets/images/News_banner.jpg'; // Import your banner image
 import tomatoImg from '../assets/images/tomato.jpg';
 import AccountImg from '../assets/images/AccountImg.jpg';
+import Navbar from '../components/Navbar';
 
 const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
@@ -36,6 +37,8 @@ const ProductDetail = () => {
   };
 
   return (
+    <div>
+      <Navbar/>
     <div className="w-full"> {/* Set width to full */}
       {/* Banner Section */}
       <div
@@ -166,6 +169,7 @@ const ProductDetail = () => {
             Submit Review
           </button>
         </form>
+      </div>
       </div>
     </div>
   );

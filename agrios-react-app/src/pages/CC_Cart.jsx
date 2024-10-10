@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import BannerImage from '../assets/images/News_banner.jpg'; // Ensure this is the same banner image used in other pages
 import tomatoImg from '../assets/images/tomato.jpg'; // Import the tomato image
 import brinjalImg from '../assets/images/brinjal.jpg'; // Import the brinjal image
+import Navbar from '../components/Navbar';
 
 const Cart = () => {
   const navigate = useNavigate(); // Initialize navigate
@@ -40,6 +41,8 @@ const Cart = () => {
   const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
   return (
+    <div>
+      <Navbar/>
     <div className="py-0 px-0"> {/* Remove padding top */}
       {/* Banner Section */}
       <div
@@ -107,6 +110,7 @@ const Cart = () => {
         >
           Proceed to Checkout
         </button>
+      </div>
       </div>
     </div>
   );
