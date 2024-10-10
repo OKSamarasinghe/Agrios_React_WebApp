@@ -62,7 +62,7 @@ const Footer = () => {
 
       {/* Copyright and Links */}
       <div className="text-center mt-12 border-t border-white-00 pt-6">
-        <p>© All Copyright 2024 by Oshada & Sohan</p>
+        <p>© All Copyright 2024 by Oshadha K & Sohan</p>
         <div className="flex justify-center space-x-4 mt-2">
           <a href="#" className="hover:text-gray-200">Terms of Use</a>
           <span>|</span>
