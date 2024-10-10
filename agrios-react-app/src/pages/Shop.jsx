@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import BannerImage from '../assets/images/News_banner.jpg';
 import tomatoImg from '../assets/images/tomato.jpg';
 import BrinjalImg from '../assets/images/brinjal.jpg';
@@ -11,11 +12,17 @@ import PotatoeImg from '../assets/images/potatoes.jpg';
 import BitterGurdImg from '../assets/images/BitterGurd.jpg';
 
 const Shop = () => {
+  const navigate = useNavigate();
+
+  // Function to handle navigation to product details
+  const handleAddToCart = (productName) => {
+    navigate(`/product/${productName}`);
+  };
   return (
     <div className="w-full">
       {/* Shop Banner Section */}
       <div
-        className="relative w-full h-64 bg-cover bg-center mb-6"
+        className="relative w-full h-96 bg-cover bg-center mb-6"
         style={{
           backgroundImage: `url(${BannerImage})`,
           backgroundSize: 'cover',
@@ -53,15 +60,18 @@ const Shop = () => {
           <img
             src={tomatoImg}
             alt="Tomato"
-            className="w-64 h-64 object-cover mb-3" // Updated size to 250px
+            className="w-64 h-64 object-cover mb-3"
           />
           <h2 className="text-lg font-semibold">Tomato</h2>
           <p className="text-gray-700 mb-2">₹80.00</p>
-          <button className="bg-green-500 text-white px-4 py-2 rounded">
+          <button
+            onClick={() => handleAddToCart('Tomato')}
+            className="bg-green-500 text-white px-4 py-2 rounded"
+          >
             Add to cart
           </button>
         </div>
-
+        
         {/* Brinjal */}
         <div className="border rounded-lg p-3 shadow-md hover:shadow-lg">
           <img
@@ -176,7 +186,7 @@ const Shop = () => {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center mt-8">
+      <div className="flex justify-center mt-8 mb-6">
         <button className="bg-gray-200 px-4 py-2 rounded mr-2">1</button>
         <button className="bg-gray-200 px-4 py-2 rounded">2</button>
       </div>
