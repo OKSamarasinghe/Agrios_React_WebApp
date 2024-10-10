@@ -3,10 +3,12 @@ import BannerImage from '../assets/images/News_banner.jpg';
 import ArticleImage1 from '../assets/images/artical_image1.jpg';
 import ArticleImage2 from '../assets/images/artical_image2.jpg';
 import ArticleImage3 from '../assets/images/artical_image3.jpg';
+import Navbar from '../components/Navbar';
 
 const News = () => {
   return (
     <div>
+      <Navbar />
       {/* This will display your header */}
       
       {/* News Banner Section */}

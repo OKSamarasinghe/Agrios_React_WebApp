@@ -10,6 +10,7 @@ import LettuceImg from '../assets/images/lettuce.jpg';
 import OnionImg from '../assets/images/onions.jpg';
 import PotatoeImg from '../assets/images/potatoes.jpg';
 import BitterGurdImg from '../assets/images/BitterGurd.jpg';
+import Navbar from '../components/Navbar';
 
 const Shop = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Shop = () => {
   };
   return (
     <div className="w-full">
+      <Navbar />
       {/* Shop Banner Section */}
       <div
         className="relative w-full h-96 bg-cover bg-center mb-6"
