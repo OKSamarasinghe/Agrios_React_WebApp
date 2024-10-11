@@ -25,6 +25,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Hardcoded admin credentials
+    if (formData.email === 'admin@gmail.com' && formData.password === 'admin@1234') {
+      navigate('/adminhome'); // Navigate to admin home
+      return;
+    }
+
     try {
       // Using GET request with email and password as query params
       const response = await axios.get(`http://localhost:8080/agriosuser/users`, {

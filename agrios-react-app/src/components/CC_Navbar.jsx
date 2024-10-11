@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import agriosLogo from '../assets/images/agriosLogo.png'; // Import the logo image
 
-const Navbar = () => {
+const CC_Navbar = () => {
   return (
     <nav className="bg-green-500">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -11,7 +11,7 @@ const Navbar = () => {
           Agrios
         </Link>
         <ul className="flex space-x-6 text-white">
-          <li><Link to="/" className="hover:underline">Home</Link></li>
+          <li><Link to="/cushome" className="hover:underline">Home</Link></li>
           <li><Link to="/about" className="hover:underline">About</Link></li>
           <li><Link to="/services" className="hover:underline">Services</Link></li>
           <li><Link to="/news" className="hover:underline">News</Link></li>
@@ -19,16 +19,16 @@ const Navbar = () => {
           <li><Link to="/contact" className="hover:underline">Contact</Link></li>
         </ul>
         <div className="space-x-4">
-          <Link to="/login">
-            <button className="text-white border-white border-2 px-3 py-1 rounded">Sign In</button>
+          <Link to="/cusprofile">
+            <button className="text-white bg-blue-700 px-3 py-1 rounded">Profile</button> {/* Changed to Profile with blue color */}
           </Link>
-          <Link to="/register">
-            <button className="text-green-500 bg-white px-3 py-1 rounded">Sign Up</button>
-          </Link>
+          <Link to="/">
+            <button className="text-white bg-red-600 px-3 py-1 rounded">Log Out</button> {/* Changed to Log Out with red color */}
+          </Link>  
         </div>
       </div>
     </nav>
   );
 };
 
-export default Navbar;
+export default CC_Navbar;
