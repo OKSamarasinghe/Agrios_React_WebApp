@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import Axios for making HTTP requests
 import AgriosLogo from '../assets/images/agriosLogo.png';
 import Navbar from '../components/Navbar';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Registration = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,50 @@ const Registration = () => {
     confirmPassword: '',
   });
 
+  const [errors, setErrors] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const navigate = useNavigate(); // Initialize navigate
+
+  // Validation for each field
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Name validation: only letters allowed
+    if (!/^[A-Za-z]+$/.test(formData.name)) {
+      newErrors.name = 'Name can only contain letters';
+    }
+
+    // Email validation
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Invalid email format';
+    }
+
+    // Phone number validation: must be exactly 10 digits
+    if (!/^\d{10}$/.test(formData.phoneNumber)) {
+      newErrors.phoneNumber = 'Phone number must be 10 digits';
+    }
+
+    // Password and confirm password validation
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.password = 'Passwords do not match';
+    }
+
+    setErrors(newErrors);
+
+    // Form is valid if no errors and all fields are filled
+    const isValid =
+      Object.keys(newErrors).length === 0 &&
+      formData.name &&
+      formData.email &&
+      formData.accountType &&
+      formData.phoneNumber &&
+      formData.password &&
+      formData.confirmPassword;
+
+    setIsFormValid(isValid);
+  };
+
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,13 +67,18 @@ const Registration = () => {
     });
   };
 
+  // Re-validate when form data changes
+  useEffect(() => {
+    validateForm();
+  }, [formData]);
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if password and confirm password match
-    if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
+    // Validate form before submission
+    if (!isFormValid) {
+      alert('Please fill out the form correctly.');
       return;
     }
 
@@ -41,10 +91,11 @@ const Registration = () => {
         phoneNumber: formData.phoneNumber,
         password: formData.password,
       });
-      
-      // Handle success (you can redirect or show success message)
+
+      // Handle success: redirect to login page
       console.log('Registration successful:', response.data);
       alert('Registration successful!');
+      navigate('/login'); // Redirect to login page after success
     } catch (error) {
       // Handle error (show error message)
       console.error('There was an error during registration:', error);
@@ -73,9 +124,10 @@ const Registration = () => {
                 placeholder="Enter your Name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className={`w-full border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500`}
                 required
               />
+              {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
             </div>
             <div>
               <label className="block text-gray-700 font-medium mb-1">Email</label>
@@ -85,9 +137,10 @@ const Registration = () => {
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className={`w-full border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500`}
                 required
               />
+              {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
             </div>
             <div>
               <label className="block text-gray-700 font-medium mb-1">Account Type</label>
@@ -111,9 +164,10 @@ const Registration = () => {
                 placeholder="Enter your phone number"
                 value={formData.phoneNumber}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className={`w-full border ${errors.phoneNumber ? 'border-red-500' : 'border-gray-300'} rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500`}
                 required
               />
+              {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
             </div>
             <div>
               <label className="block text-gray-700 font-medium mb-1">Password</label>
@@ -123,7 +177,7 @@ const Registration = () => {
                 placeholder="Enter password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className={`w-full border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500`}
                 required
               />
             </div>
@@ -138,11 +192,13 @@ const Registration = () => {
                 className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
                 required
               />
+              {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
             </div>
             <div className="text-center">
               <button
                 type="submit"
                 className="bg-green-500 text-white w-full py-2 rounded-md hover:bg-green-600 transition duration-300"
+                disabled={!isFormValid} // Disable the button if form is not valid
               >
                 Sign Up
               </button>

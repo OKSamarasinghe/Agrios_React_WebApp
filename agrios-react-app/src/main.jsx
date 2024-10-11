@@ -18,6 +18,8 @@ import HelpSupport from './pages/HelpSupport.jsx';
 import FAQ from './pages/FAQ.jsx';
 import Registration from './pages/Registration.jsx';
 import Login from './pages/Login.jsx';
+import CC_Home from './pages/CC_Home.jsx';
+import BB_FHome from './pages/BB_FHome.jsx';
 
 // Creating the root and rendering the app
 createRoot(document.getElementById('root')).render(
@@ -37,6 +39,8 @@ createRoot(document.getElementById('root')).render(
         <Route path='/faq' element={<FAQ />} />
         <Route path='/register' element={<Registration />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/cushome' element={<CC_Home />} />
+        <Route path='/farmerhome' element={<BB_FHome />} />
       </Routes>
       <Footer />
     </Router>
