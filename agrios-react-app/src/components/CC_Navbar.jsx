@@ -12,11 +12,11 @@ const CC_Navbar = () => {
         </Link>
         <ul className="flex space-x-6 text-white">
           <li><Link to="/cushome" className="hover:underline">Home</Link></li>
-          <li><Link to="/about" className="hover:underline">About</Link></li>
-          <li><Link to="/services" className="hover:underline">Services</Link></li>
-          <li><Link to="/news" className="hover:underline">News</Link></li>
-          <li><Link to="/shop" className="hover:underline">Shop</Link></li>
-          <li><Link to="/contact" className="hover:underline">Contact</Link></li>
+          <li><Link to="/cusaboutus" className="hover:underline">About</Link></li>
+          <li><Link to="/cusservices" className="hover:underline">Services</Link></li>
+          <li><Link to="/cusnews" className="hover:underline">News</Link></li>
+          <li><Link to="/cusshop" className="hover:underline">Shop</Link></li>
+          <li><Link to="/cuscontact" className="hover:underline">Contact</Link></li>
         </ul>
         <div className="space-x-4">
           <Link to="/cusprofile">
