@@ -26,6 +26,8 @@ import Review from './pages/CC_GiveReview.jsx';
 import View from './pages/CC_ViewOrder.jsx';
 import Subscription from './pages/CC_Subscription.jsx';
 import Subscribe from './pages/CC_CheckoutSub.jsx';
+import CC_Home from './pages/CC_Home.jsx';
+import BB_FHome from './pages/BB_FHome.jsx';
 
 // Creating the root and rendering the app
 createRoot(document.getElementById('root')).render(
@@ -53,10 +55,10 @@ createRoot(document.getElementById('root')).render(
         <Route path='/order' element={<View />} />
         <Route path="/subscription" element={<Subscription />} />
         <Route path="/subscribe" element={<Subscribe />} />
-
+        <Route path='/cushome' element={<CC_Home />} />
+        <Route path='/farmerhome' element={<BB_FHome />} />
       </Routes>
       <Footer />
     </Router>
   </StrictMode>,
 );
-
