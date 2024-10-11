@@ -112,7 +112,7 @@ const ProductDetail = () => {
       </div>
 
       {/* Description Section */}
-      <div className="mb-8" >
+      <div className="mb-8 ml-10 mr-10" >
         <h3 className="text-xl font-semibold mb-4">Description</h3>
         <p>
         Tomatoes are a versatile, juicy fruit that comes in a variety of sizes, shapes, and colors. They range from bright red to yellow, orange, and even purple. Rich in flavor and nutrients, tomatoes are widely used in cuisines around the world, making them a staple in both home and professional kitchens.
@@ -129,7 +129,7 @@ const ProductDetail = () => {
         </div>
 
       {/* Review Section */}
-      <div className="mb-8">
+      <div className="mb-8 ml-10 mr-10">
         <h3 className="text-xl font-semibold mb-4">
           {reviews.length} review{reviews.length > 1 && 's'} for Tomato
         </h3>
@@ -152,7 +152,7 @@ const ProductDetail = () => {
       </div>
 
       {/* Add a Review Section */}
-      <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+      <div className="bg-gray-100 p-6 rounded-lg shadow-md ">
         <h3 className="text-xl font-semibold mb-4">Add a Review</h3>
         <form onSubmit={handleAddReview}>
           <textarea
