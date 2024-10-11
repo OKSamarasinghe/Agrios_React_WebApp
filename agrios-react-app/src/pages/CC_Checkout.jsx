@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import BannerImage from '../assets/images/BannerImg5.jpg'; // Use the same banner image
 import { useLocation } from 'react-router-dom'; // To pass data between pages
 import Navbar from '../components/Navbar';
@@ -13,6 +14,12 @@ const Checkout = () => {
   const finalTotal = totalPrice - discount + deliveryCharge;
 
   const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+  const navigate = useNavigate(); 
+
+  const handleProceedToPay = () => {
+    navigate('/order-confirmation'); 
+  };
 
   return (
     <div>
@@ -84,7 +91,11 @@ const Checkout = () => {
 
         {/* Proceed to Pay Button */}
         <div className="mt-6 text-center">
-          <button className="bg-blue-500 text-white px-6 py-2 rounded">Proceed to Pay</button>
+        <button 
+          onClick={handleProceedToPay}  // Step 4: Add onClick event handler
+          className="bg-blue-500 text-white px-6 py-2 rounded">
+          Proceed to Pay
+        </button>
         </div>
       </div>
       </div>
