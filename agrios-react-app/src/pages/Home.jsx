@@ -1,6 +1,7 @@
 // src/pages/Home.jsx
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Importing local images
 import heroImage from '../assets/images/heroimg.jpg';
@@ -20,8 +21,15 @@ import premiumIcon from '../assets/images/premiumImg.png'
 import organicFrmImgIcon from '../assets/images/organicFrmImg.jpg'
 import secondHeroImage from '../assets/images/secondHero2.jpg'
 import Navbar from '../components/Navbar';
+import SubscriptionPlan from './CC_Subscription';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  // Navigate to Subscription page on button click
+  const handleSubscriptionClick = () => {
+    navigate('/subscription');
+  };
   return (
     <div>
       <Navbar />
@@ -168,7 +176,9 @@ const Home = () => {
 <section className="py-16 bg-green-500"> {/* Changed background to green */}
   <div className="container mx-auto text-center">
     <h2 className="text-3xl font-bold mb-8 text-white">Be a Premium Member</h2> {/* Text color changed to white for contrast */}
-    <button className="bg-yellow-500 hover:bg-green-800 text-white px-4 py-2 rounded">Get Now</button> {/* Button color updated to dark green with hover effect */}
+    <button onClick={handleSubscriptionClick} className="bg-yellow-500 hover:bg-green-800 text-white px-4 py-2 rounded">
+            Get Now
+          </button>{/* Button color updated to dark green with hover effect */}
   </div>
 </section>
 

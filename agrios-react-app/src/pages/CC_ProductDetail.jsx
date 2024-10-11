@@ -35,6 +35,10 @@ const ProductDetail = () => {
     // Here, you could also manage cart items in a context or global state
     navigate('/cart'); // Navigate to the Cart page
   };
+  const handleAddToWishlist = () => {
+    // Here, you could also manage cart items in a context or global state
+    navigate('/wishlist'); // Navigate to the Cart page
+  };
 
   return (
     <div>
@@ -104,7 +108,7 @@ const ProductDetail = () => {
             >
               Add to cart
             </button>
-            <button className="ml-4 mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+            <button onClick={handleAddToWishlist} className="ml-4 mt-4 px-4 py-2 bg-blue-500 text-white rounded">
               Add to Wishlist
             </button>
           </div>
