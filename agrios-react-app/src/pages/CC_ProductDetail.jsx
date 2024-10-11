@@ -74,7 +74,7 @@ const ProductDetail = () => {
         {/* Product Details */}
         <div>
           <h2 className="text-2xl font-bold mb-2">Tomato</h2>
-          <p className="text-xl font-semibold text-green-600 mb-2">₹50.00</p>
+          <p className="text-xl font-semibold text-green-600 mb-2">Rs50.00</p>
           <p className="text-gray-500">1 customer review</p>
           <div className="my-4">
             <label className="block text-lg font-medium">Choose Quantity</label>
