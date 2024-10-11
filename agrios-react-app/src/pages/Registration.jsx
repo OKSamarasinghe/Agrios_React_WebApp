@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import Axios for making HTTP requests
 import AgriosLogo from '../assets/images/agriosLogo.png';
 import Navbar from '../components/Navbar';
@@ -46,15 +46,16 @@ const Registration = () => {
     setErrors(newErrors);
 
     // Form is valid if no errors and all fields are filled
-    setIsFormValid(
+    const isValid =
       Object.keys(newErrors).length === 0 &&
       formData.name &&
       formData.email &&
       formData.accountType &&
       formData.phoneNumber &&
       formData.password &&
-      formData.confirmPassword
-    );
+      formData.confirmPassword;
+
+    setIsFormValid(isValid);
   };
 
   // Handle input changes
@@ -64,17 +65,18 @@ const Registration = () => {
       ...formData,
       [name]: value,
     });
-
-    validateForm();
   };
+
+  // Re-validate when form data changes
+  useEffect(() => {
+    validateForm();
+  }, [formData]);
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate form before submission
-    validateForm();
-
     if (!isFormValid) {
       alert('Please fill out the form correctly.');
       return;
@@ -89,7 +91,7 @@ const Registration = () => {
         phoneNumber: formData.phoneNumber,
         password: formData.password,
       });
-      
+
       // Handle success: redirect to login page
       console.log('Registration successful:', response.data);
       alert('Registration successful!');
