@@ -20,16 +20,17 @@ import premiumIcon from '../assets/images/premiumImg.png'
 import organicFrmImgIcon from '../assets/images/organicFrmImg.jpg'
 import secondHeroImage from '../assets/images/secondHero2.jpg'
 import Navbar from '../components/Navbar';
+import CC_Navbar from '../components/CC_Navbar';
 
 const Home = () => {
   return (
     <div>
-      <Navbar />
+      <CC_Navbar />
       {/* Hero Section */}
       <section className="relative h-screen bg-cover bg-center" style={{ backgroundImage: `url(${heroImage})` }}>
         <div className="absolute inset-0 bg-black bg-opacity-0"></div>
         <div className="container mx-auto h-full flex flex-col justify-center items-center text-white text-center">
-          <h1 className="text-4xl md:text-6xl font-bold">Agriculture & Organic Market</h1>
+          <h1 className="text-4xl md:text-6xl font-bold">Agriculture & Organic Market Customer Home</h1>
           <p className="mt-4 text-lg md:text-2xl ">Be healthy and eat fresh organic vegetables</p>
           <button className="mt-8 bg-green-500 text-white px-4 py-2 rounded">Shop Now</button>
         </div>

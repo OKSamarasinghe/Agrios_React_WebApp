@@ -20,6 +20,9 @@ import Registration from './pages/Registration.jsx';
 import Login from './pages/Login.jsx';
 import CC_Home from './pages/CC_Home.jsx';
 import BB_FHome from './pages/BB_FHome.jsx';
+import AAdmin_Home from './pages/AAdmin_Home.jsx';
+import CC_Navbar from './components/CC_Navbar.jsx';
+import CC_profile from './pages/CC_profile.jsx';
 
 // Creating the root and rendering the app
 createRoot(document.getElementById('root')).render(
@@ -41,6 +44,9 @@ createRoot(document.getElementById('root')).render(
         <Route path='/login' element={<Login />} />
         <Route path='/cushome' element={<CC_Home />} />
         <Route path='/farmerhome' element={<BB_FHome />} />
+        <Route path='/adminhome' element={<AAdmin_Home />} />
+        <Route path='/custnavbar' element={<CC_Navbar />} />
+        <Route path='/cusprofile' element={<CC_profile />} />
       </Routes>
       <Footer />
     </Router>
