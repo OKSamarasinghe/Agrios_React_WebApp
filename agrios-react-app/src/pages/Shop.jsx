@@ -65,7 +65,7 @@ const Shop = () => {
             className="w-64 h-64 object-cover mb-3"
           />
           <h2 className="text-lg font-semibold">Tomato</h2>
-          <p className="text-gray-700 mb-2">₹80.00</p>
+          <p className="text-gray-700 mb-2">Rs80.00</p>
           <button
             onClick={() => handleAddToCart('Tomato')}
             className="bg-green-500 text-white px-4 py-2 rounded"
@@ -82,7 +82,7 @@ const Shop = () => {
             className="w-64 h-64 object-cover mb-3" // Updated size to 250px
           />
           <h2 className="text-lg font-semibold">Brinjal</h2>
-          <p className="text-gray-700 mb-2">₹120.00</p>
+          <p className="text-gray-700 mb-2">Rs120.00</p>
           <button className="bg-green-500 text-white px-4 py-2 rounded">
             Add to cart
           </button>
@@ -96,7 +96,7 @@ const Shop = () => {
             className="w-64 h-64 object-cover mb-3" // Updated size to 250px
           />
           <h2 className="text-lg font-semibold">Carrot</h2>
-          <p className="text-gray-700 mb-2">₹90.00</p>
+          <p className="text-gray-700 mb-2">Rs90.00</p>
           <button className="bg-green-500 text-white px-4 py-2 rounded">
             Add to cart
           </button>
@@ -110,7 +110,7 @@ const Shop = () => {
             className="w-64 h-64 object-cover mb-3" // Updated size to 250px
           />
           <h2 className="text-lg font-semibold">Garlic</h2>
-          <p className="text-gray-700 mb-2">₹120.00</p>
+          <p className="text-gray-700 mb-2">Rs120.00</p>
           <button className="bg-green-500 text-white px-4 py-2 rounded">
             Add to cart
           </button>
@@ -124,7 +124,7 @@ const Shop = () => {
             className="w-64 h-64 object-cover mb-3" // Updated size to 250px
           />
           <h2 className="text-lg font-semibold">Cucumber</h2>
-          <p className="text-gray-700 mb-2">₹100.00</p>
+          <p className="text-gray-700 mb-2">Rs100.00</p>
           <button className="bg-green-500 text-white px-4 py-2 rounded">
             Add to cart
           </button>
@@ -138,7 +138,7 @@ const Shop = () => {
             className="w-64 h-64 object-cover mb-3" // Updated size to 250px
           />
           <h2 className="text-lg font-semibold">Lettuce</h2>
-          <p className="text-gray-700 mb-2">₹150.00</p>
+          <p className="text-gray-700 mb-2">Rs150.00</p>
           <button className="bg-green-500 text-white px-4 py-2 rounded">
             Add to cart
           </button>
@@ -152,7 +152,7 @@ const Shop = () => {
             className="w-64 h-64 object-cover mb-3" // Updated size to 250px
           />
           <h2 className="text-lg font-semibold">Onions</h2>
-          <p className="text-gray-700 mb-2">₹210.00</p>
+          <p className="text-gray-700 mb-2">Rs210.00</p>
           <button className="bg-green-500 text-white px-4 py-2 rounded">
             Add to cart
           </button>
@@ -166,7 +166,7 @@ const Shop = () => {
             className="w-64 h-64 object-cover mb-3" // Updated size to 250px
           />
           <h2 className="text-lg font-semibold">Potatoes</h2>
-          <p className="text-gray-700 mb-2">₹250.00</p>
+          <p className="text-gray-700 mb-2">Rs250.00</p>
           <button className="bg-green-500 text-white px-4 py-2 rounded">
             Add to cart
           </button>
@@ -180,7 +180,7 @@ const Shop = () => {
             className="w-64 h-64 object-cover mb-3" // Updated size to 250px
           />
           <h2 className="text-lg font-semibold">Bitter Gourd</h2>
-          <p className="text-gray-700 mb-2">₹100.00</p>
+          <p className="text-gray-700 mb-2">Rs100.00</p>
           <button className="bg-green-500 text-white px-4 py-2 rounded">
             Add to cart
           </button>
