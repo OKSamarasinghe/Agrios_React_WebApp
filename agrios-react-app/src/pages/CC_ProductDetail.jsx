@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import BannerImage from '../assets/images/News_banner.jpg'; // Import your banner image
+import BannerImage from '../assets/images/BannerImg2.jpg'; // Import your banner image
 import tomatoImg from '../assets/images/tomato.jpg';
 import AccountImg from '../assets/images/AccountImg.jpg';
 import Navbar from '../components/Navbar';

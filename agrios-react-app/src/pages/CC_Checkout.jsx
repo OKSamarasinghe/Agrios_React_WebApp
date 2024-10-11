@@ -1,5 +1,5 @@
 import React from 'react';
-import BannerImage from '../assets/images/News_banner.jpg'; // Use the same banner image
+import BannerImage from '../assets/images/BannerImg5.jpg'; // Use the same banner image
 import { useLocation } from 'react-router-dom'; // To pass data between pages
 import Navbar from '../components/Navbar';
 
@@ -46,7 +46,7 @@ const Checkout = () => {
               <div>
                 <h3 className="font-semibold">{item.name}</h3>
                 <p>Qty: {item.quantity}</p>
-                <p>Price: ₹{item.price}</p>
+                <p>Price: Rs{item.price}.00</p>
               </div>
             </div>
           ))}
@@ -61,19 +61,19 @@ const Checkout = () => {
         {/* Total Price */}
         <div className="flex justify-between mb-2">
           <span className="text-gray-600">Total Price:</span>
-          <span>₹{totalPrice.toFixed(2)}</span>
+          <span>Rs{totalPrice.toFixed(2)}</span>
         </div>
 
         {/* Discount */}
         <div className="flex justify-between mb-2">
           <span className="text-gray-600">Discount (10%):</span>
-          <span>-₹{discount.toFixed(2)}</span>
+          <span>-Rs{discount.toFixed(2)}</span>
         </div>
 
         {/* Delivery Charge */}
         <div className="flex justify-between mb-2">
           <span className="text-gray-600">Delivery Charge:</span>
-          <span>₹{deliveryCharge.toFixed(2)}</span>
+          <span>Rs{deliveryCharge.toFixed(2)}</span>
         </div>
 
         {/* Final Total */}

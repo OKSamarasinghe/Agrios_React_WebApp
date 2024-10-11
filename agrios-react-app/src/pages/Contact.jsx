@@ -1,13 +1,28 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
+import BannerImage from '../assets/images/BannerImg4.jpg';
 
 const Contact = () => {
   return (
     <div>
       <Navbar />
-    <div className="py-10 px-5">
-      {/* Contact Title */}
-      <h1 className="text-3xl font-bold text-center mb-6">Contact</h1>
+      <div className="w-full"> {/* Set width to full */}
+      {/* Banner Section */}
+      <div
+        className="relative w-full h-96 bg-cover bg-center mb-6" // Set margin bottom
+        style={{
+          backgroundImage: `url(${BannerImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        {/* Title centered */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <h1 className="text-white text-4xl font-bold">Contact</h1>
+        </div>
+      </div>
 
       {/* Contact Information Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">

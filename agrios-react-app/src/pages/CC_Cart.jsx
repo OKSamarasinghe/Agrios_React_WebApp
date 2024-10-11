@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import BannerImage from '../assets/images/News_banner.jpg'; // Ensure this is the same banner image used in other pages
+import BannerImage from '../assets/images/BannerImg3.jpg'; // Ensure this is the same banner image used in other pages
 import tomatoImg from '../assets/images/tomato.jpg'; // Import the tomato image
 import brinjalImg from '../assets/images/brinjal.jpg'; // Import the brinjal image
 import Navbar from '../components/Navbar';
@@ -66,7 +66,7 @@ const Cart = () => {
           <div key={item.id} className="border rounded-lg p-4 shadow-md">
             <img src={item.image} alt={item.name} className="w-full h-32 object-cover mb-4" />
             <h2 className="text-lg font-semibold">{item.name}</h2>
-            <p className="text-gray-700">Price: ₹{item.price}</p>
+            <p className="text-gray-700">Price: Rs{item.price}.00</p>
             <div className="flex items-center mt-2">
               <button
                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -99,7 +99,7 @@ const Cart = () => {
 
       {/* Total Price */}
       <div className="mt-6 text-right mx-5" style={{ maxWidth: '950px' }}>
-        <h2 className="text-xl font-semibold">Total Price: ₹{totalPrice}</h2>
+        <h2 className="text-xl font-semibold">Total Price: Rs{totalPrice}.00</h2>
       </div>
 
       {/* Checkout Button */}
