@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import agriosLogo from '../assets/images/agriosLogo.png'; // Import the logo image
 
-const CC_Navbar = () => {
+const BB_FNavbar = () => {
   return (
     <nav className="bg-green-500">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -11,12 +11,12 @@ const CC_Navbar = () => {
           Agrios
         </Link>
         <ul className="flex space-x-6 text-white">
-          <li><Link to="/cushome" className="hover:underline">Home</Link></li>
-          <li><Link to="/cusaboutus" className="hover:underline">About</Link></li>
-          <li><Link to="/cusservices" className="hover:underline">Services</Link></li>
-          <li><Link to="/cusnews" className="hover:underline">News</Link></li>
-          <li><Link to="/cusshop" className="hover:underline">Shop</Link></li>
-          <li><Link to="/cuscontact" className="hover:underline">Contact</Link></li>
+          <li><Link to="/farmerhome" className="hover:underline">Dashboard</Link></li>
+          <li><Link to="" className="hover:underline">Manage Product</Link></li>
+          <li><Link to="" className="hover:underline">Order Management</Link></li>
+          <li><Link to="" className="hover:underline">Price Prediction Graph</Link></li>
+          <li><Link to="" className="hover:underline">Shop</Link></li>
+          <li><Link to="/farmcontact" className="hover:underline">Contact</Link></li>
         </ul>
         <div className="space-x-4">
           <Link to="/cusprofile">
@@ -31,4 +31,4 @@ const CC_Navbar = () => {
   );
 };
 
-export default CC_Navbar;
+export default BB_FNavbar;
