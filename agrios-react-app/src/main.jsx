@@ -38,6 +38,9 @@ import CC_Shop from './pages/CC_Shop.jsx';
 import CC_Contact from './pages/CC_Contact.jsx';
 import BB_FNavbar from './components/BB_FNavbar.jsx';
 import BB_FContact from './pages/BB_FContact.jsx';
+import AAdmin_Navbar from './components/AAdmin_Navbar.jsx';
+import AAdmin_UserManage from './pages/AAdmin_UserManage.jsx';
+import AAdmin_FarmerManage from './pages/AAdmin_FarmerManage.jsx';
 
 // Creating the root and rendering the app
 createRoot(document.getElementById('root')).render(
@@ -77,6 +80,9 @@ createRoot(document.getElementById('root')).render(
         <Route path='/cuscontact' element={<CC_Contact />} />
         <Route path='/farmnavbar' element={<BB_FNavbar />} />
         <Route path='/farmcontact' element={<BB_FContact />} />
+        <Route path='/adminnavbar' element={<AAdmin_Navbar />} />
+        <Route path='/adminusermanagement' element={<AAdmin_UserManage />} />
+        <Route path='/adminfarmermanagement' element={<AAdmin_FarmerManage />} />
       </Routes>
       <Footer />
     </Router>

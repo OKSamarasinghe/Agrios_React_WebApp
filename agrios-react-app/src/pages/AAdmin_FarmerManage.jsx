@@ -1,13 +1,13 @@
 import React from 'react'
 import AAdmin_Navbar from '../components/AAdmin_Navbar'
 
-const AAdmin_Home = () => {
+const AAdmin_FarmerManage = () => {
   return (
     <div>
-      <AAdmin_Navbar />
-      <h1>Admin Home</h1>
+      <h1>Admin Farmer Management</h1>
+      
     </div>
   )
 }
 
-export default AAdmin_Home
+export default AAdmin_FarmerManage
