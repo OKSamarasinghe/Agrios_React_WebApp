@@ -11,7 +11,7 @@ import Services from './pages/Services.jsx';
 import News from './pages/News.jsx';
 import Shop from './pages/Shop.jsx';
 import Contact from './pages/Contact.jsx';
-import ProductDetail from './pages/CC_ProductDetail.jsx';
+import ProductDetail from './pages/CC_ProductDetail.jsx'; // Correct import for ProductDetail
 import Cart from './pages/CC_Cart.jsx';
 import CC_Checkout from './pages/CC_Checkout.jsx';
 import HelpSupport from './pages/HelpSupport.jsx';
@@ -49,11 +49,11 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<AboutUs />} />
-        <Route path='/services' element={<Services />} />  
-        <Route path='/news' element={<News />} />   
-        <Route path='/shop' element={<Shop />} />  
+        <Route path='/services' element={<Services />} />
+        <Route path='/news' element={<News />} />
+        <Route path='/shop' element={<Shop />} />
         <Route path='/contact' element={<Contact />} />
-        <Route path="/product/:productName" element={<ProductDetail />} />
+        <Route path="/product/:id" element={<ProductDetail />} /> {/* Correct product detail route */}
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<CC_Checkout />} />
         <Route path='/help' element={<HelpSupport />} />
