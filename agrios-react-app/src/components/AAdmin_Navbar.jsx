@@ -14,6 +14,7 @@ const AAdmin_Navbar = () => {
           <li><Link to="/adminhome" className="hover:underline">Dashboard</Link></li>
           <li><Link to="/adminusermanagement" className="hover:underline">User Management</Link></li>
           <li><Link to="/adminfarmermanagement" className="hover:underline">Farmer Management</Link></li>
+          <li><Link to="" className="hover:underline">Product Management</Link></li>
           <li><Link to="" className="hover:underline">Order Management</Link></li>
           <li><Link to="" className="hover:underline">Price Prediction Graph</Link></li>
           <li><Link to="" className="hover:underline">Help & Support</Link></li>
