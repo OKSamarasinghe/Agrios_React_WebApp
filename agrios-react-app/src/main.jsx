@@ -28,6 +28,19 @@ import Subscription from './pages/CC_Subscription.jsx';
 import Subscribe from './pages/CC_CheckoutSub.jsx';
 import CC_Home from './pages/CC_Home.jsx';
 import BB_FHome from './pages/BB_FHome.jsx';
+import AAdmin_Home from './pages/AAdmin_Home.jsx';
+import CC_Navbar from './components/CC_Navbar.jsx';
+import CC_profile from './pages/CC_profile.jsx';
+import CC_AboutUs from './pages/CC_AboutUs.jsx';
+import CC_Services from './pages/CC_Services.jsx';
+import CC_News from './pages/CC_News.jsx';
+import CC_Shop from './pages/CC_Shop.jsx';
+import CC_Contact from './pages/CC_Contact.jsx';
+import BB_FNavbar from './components/BB_FNavbar.jsx';
+import BB_FContact from './pages/BB_FContact.jsx';
+import AAdmin_Navbar from './components/AAdmin_Navbar.jsx';
+import AAdmin_UserManage from './pages/AAdmin_UserManage.jsx';
+import AAdmin_FarmerManage from './pages/AAdmin_FarmerManage.jsx';
 
 // Creating the root and rendering the app
 createRoot(document.getElementById('root')).render(
@@ -57,6 +70,19 @@ createRoot(document.getElementById('root')).render(
         <Route path="/subscribe" element={<Subscribe />} />
         <Route path='/cushome' element={<CC_Home />} />
         <Route path='/farmerhome' element={<BB_FHome />} />
+        <Route path='/adminhome' element={<AAdmin_Home />} />
+        <Route path='/custnavbar' element={<CC_Navbar />} />
+        <Route path='/cusprofile' element={<CC_profile />} />
+        <Route path='/cusaboutus' element={<CC_AboutUs />} />
+        <Route path='/cusservices' element={<CC_Services />} />
+        <Route path='/cusnews' element={<CC_News />} />
+        <Route path='/cusshop' element={<CC_Shop />} />
+        <Route path='/cuscontact' element={<CC_Contact />} />
+        <Route path='/farmnavbar' element={<BB_FNavbar />} />
+        <Route path='/farmcontact' element={<BB_FContact />} />
+        <Route path='/adminnavbar' element={<AAdmin_Navbar />} />
+        <Route path='/adminusermanagement' element={<AAdmin_UserManage />} />
+        <Route path='/adminfarmermanagement' element={<AAdmin_FarmerManage />} />
       </Routes>
       <Footer />
     </Router>

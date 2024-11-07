@@ -25,6 +25,23 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Hardcoded credentials
+    if (formData.email === 'admin@gmail.com' && formData.password === 'admin@1234') {
+      navigate('/adminhome'); // Navigate to admin home
+      return;
+    }
+
+    if (formData.email === 'customer@gmail.com' && formData.password === 'cus123') {
+      navigate('/cushome'); // Navigate to customer home
+      return;
+    }
+
+    if (formData.email === 'farmer@gmail.com' && formData.password === 'farm1234') {
+      navigate('/farmerhome'); // Navigate to farmer home
+      return;
+    }
+
     try {
       // Using GET request with email and password as query params
       const response = await axios.get(`http://localhost:8080/agriosuser/users`, {
@@ -36,6 +53,10 @@ const Login = () => {
 
       const user = response.data;
       if (user) {
+
+        // Store user's email in localStorage after successful login
+      localStorage.setItem('email', user.email);
+
         if (user.accountType === 'Customer') {
           navigate('/cushome'); // Navigate to customer home
         } else if (user.accountType === 'Farmer') {

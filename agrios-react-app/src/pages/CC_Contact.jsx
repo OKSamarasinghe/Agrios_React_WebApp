@@ -1,11 +1,12 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import BannerImage from '../assets/images/BannerImg4.jpg';
+import CC_Navbar from '../components/CC_Navbar';
 
-const Contact = () => {
+const CC_Contact = () => {
   return (
     <div>
-      <Navbar />
+      <CC_Navbar />
       <div className="w-full"> {/* Set width to full */}
       {/* Banner Section */}
       <div
@@ -109,4 +110,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default CC_Contact;

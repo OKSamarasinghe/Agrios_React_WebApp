@@ -1,11 +1,12 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import BannerImage from '../assets/images/BannerImg4.jpg';
+import BB_FNavbar from '../components/BB_FNavbar';
 
-const Contact = () => {
+const BB_FContact = () => {
   return (
     <div>
-      <Navbar />
+      <BB_FNavbar />
       <div className="w-full"> {/* Set width to full */}
       {/* Banner Section */}
       <div
@@ -109,4 +110,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default BB_FContact;
