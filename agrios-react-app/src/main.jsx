@@ -41,6 +41,8 @@ import BB_FContact from './pages/BB_FContact.jsx';
 import AAdmin_Navbar from './components/AAdmin_Navbar.jsx';
 import AAdmin_UserManage from './pages/AAdmin_UserManage.jsx';
 import AAdmin_FarmerManage from './pages/AAdmin_FarmerManage.jsx';
+import BB_FAddProduct from './pages/BB_FAddProduct';
+import EditProduct from './pages/BB_EditProduct.jsx';
 
 // Creating the root and rendering the app
 createRoot(document.getElementById('root')).render(
@@ -83,6 +85,9 @@ createRoot(document.getElementById('root')).render(
         <Route path='/adminnavbar' element={<AAdmin_Navbar />} />
         <Route path='/adminusermanagement' element={<AAdmin_UserManage />} />
         <Route path='/adminfarmermanagement' element={<AAdmin_FarmerManage />} />
+        <Route path="/bb-fhome" element={<BB_FHome />} />
+        <Route path="/addproduct" element={<BB_FAddProduct />} />
+        <Route path="/editproduct" element={<EditProduct />} />
       </Routes>
       <Footer />
     </Router>

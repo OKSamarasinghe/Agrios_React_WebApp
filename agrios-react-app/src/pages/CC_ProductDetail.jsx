@@ -16,7 +16,7 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/products/${id}`); // Fetch product data based on the ID
+        const response = await fetch(`http://localhost:8081/products/${id}`); // Fetch product data based on the ID
         const data = await response.json();
         console.log('Fetched Product:', data); // Log the fetched product data
         setProduct(data); // Set the product data to state
