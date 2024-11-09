@@ -16,7 +16,7 @@ const Shop = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:8080/products'); // Adjust API endpoint accordingly
+        const response = await fetch('http://localhost:8081/products'); // Adjust API endpoint accordingly
         const data = await response.json();
         setProducts(data); // Assuming the response is an array of products
       } catch (error) {
