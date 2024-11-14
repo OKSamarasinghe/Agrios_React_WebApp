@@ -43,6 +43,9 @@ import AAdmin_UserManage from './pages/AAdmin_UserManage.jsx';
 import AAdmin_FarmerManage from './pages/AAdmin_FarmerManage.jsx';
 import BB_FAddProduct from './pages/BB_FAddProduct';
 import EditProduct from './pages/BB_EditProduct.jsx';
+import OrderConfirmationSub from './pages/CC_OrderConfirmationSub.jsx';
+import PricePrediction from './pages/CC_PricePrediction.jsx';
+import OrderHistory from './pages/BB_FOrderHistory.jsx';
 
 // Creating the root and rendering the app
 createRoot(document.getElementById('root')).render(
@@ -88,6 +91,9 @@ createRoot(document.getElementById('root')).render(
         <Route path="/bb-fhome" element={<BB_FHome />} />
         <Route path="/addproduct" element={<BB_FAddProduct />} />
         <Route path="/editproduct" element={<EditProduct />} />
+        <Route path="/sub-order" element={<OrderConfirmationSub />} />
+        <Route path="/pricepredict" element={<PricePrediction />} />
+        <Route path="/orderHistory" element={<OrderHistory />} />
       </Routes>
       <Footer />
     </Router>

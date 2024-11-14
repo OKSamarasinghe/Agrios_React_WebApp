@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BannerImage from '../assets/images/BannerImg6.jpg';
 
 const CC_Checkout = () => {
@@ -21,6 +22,12 @@ const CC_Checkout = () => {
     e.preventDefault();
     // Add your form submission logic here
     console.log('Card details submitted:', cardDetails);
+  };
+  const navigate = useNavigate();
+
+  const handleProceedToPay = () => {
+    // Add any payment logic here if needed
+    navigate('/sub-order');  // Step 3: Navigate to Order Confirmation page
   };
 
   return (
@@ -102,11 +109,13 @@ const CC_Checkout = () => {
           </div>
         </div>
         <button
+          onClick={handleProceedToPay}
           type="submit"
           className="btn bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 w-full"
         >
           Pay Now
         </button>
+        
       </form>
     </div>
   );
