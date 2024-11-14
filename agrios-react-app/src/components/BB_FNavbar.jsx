@@ -31,9 +31,8 @@ const BB_FNavbar = ({ onManageProductsClick, showDropdown }) => {
               </div>
             )}
           </li>
-          <li><Link to="" className="hover:underline">Order Management</Link></li>
-          <li><Link to="" className="hover:underline">Price Prediction Graph</Link></li>
-          <li><Link to="" className="hover:underline">Shop</Link></li>
+          <li><Link to="/orderHistory" className="hover:underline">Order Management</Link></li>
+          <li><Link to="/pricepredict" className="hover:underline">Price Prediction Graph</Link></li>
           <li><Link to="/farmcontact" className="hover:underline">Contact</Link></li>
         </ul>
         <div className="space-x-4">

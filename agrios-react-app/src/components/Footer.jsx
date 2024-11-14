@@ -44,7 +44,7 @@ const Footer = () => {
         {/* Contact Section */}
         <div>
           <h3 className="text-xl font-bold">Contact</h3>
-          <p className="mt-4">Phone: +94 2000 432</p>
+          <p className="mt-4">Phone: +94 332000432</p>
           <p>Email: agrios@company.com</p>
           <p>Vidya road, Colombo 7, Sri Lanka</p>
           <div className="mt-6">
