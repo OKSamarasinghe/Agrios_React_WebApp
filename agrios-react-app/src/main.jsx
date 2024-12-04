@@ -9,7 +9,7 @@ import Footer from './components/Footer.jsx';
 import AboutUs from './pages/AboutUs.jsx';
 import Services from './pages/Services.jsx';
 import News from './pages/News.jsx';
-import Shop from './pages/Shop.jsx';
+import Shop from './pages/CC_Shop.jsx';
 import Contact from './pages/Contact.jsx';
 import ProductDetail from './pages/CC_ProductDetail.jsx'; // Correct import for ProductDetail
 import Cart from './pages/CC_Cart.jsx';
@@ -34,7 +34,7 @@ import CC_profile from './pages/CC_profile.jsx';
 import CC_AboutUs from './pages/CC_AboutUs.jsx';
 import CC_Services from './pages/CC_Services.jsx';
 import CC_News from './pages/CC_News.jsx';
-import CC_Shop from './pages/CC_Shop.jsx';
+import CC_Shop from './pages/Shop.jsx';
 import CC_Contact from './pages/CC_Contact.jsx';
 import BB_FNavbar from './components/BB_FNavbar.jsx';
 import BB_FContact from './pages/BB_FContact.jsx';
@@ -44,7 +44,7 @@ import AAdmin_FarmerManage from './pages/AAdmin_FarmerManage.jsx';
 import BB_FAddProduct from './pages/BB_FAddProduct';
 import EditProduct from './pages/BB_EditProduct.jsx';
 import OrderConfirmationSub from './pages/CC_OrderConfirmationSub.jsx';
-import PricePrediction from './pages/CC_PricePrediction.jsx';
+import PricePrediction from './pages/BB_FPricePrediction.jsx';
 import OrderHistory from './pages/BB_FOrderHistory.jsx';
 
 // Creating the root and rendering the app

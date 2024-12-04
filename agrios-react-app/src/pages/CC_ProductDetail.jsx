@@ -39,6 +39,7 @@ const ProductDetail = () => {
     setReviews([...reviews, newReview]);
     setReview('');
   };
+  
 
   const handleAddToCart = () => {
     // Ensure that the entered quantity does not exceed the available stock
@@ -57,6 +58,7 @@ const ProductDetail = () => {
   if (!product) {
     return <div>Loading...</div>; // Show loading message while data is being fetched
   }
+  
 
   return (
     <div>
