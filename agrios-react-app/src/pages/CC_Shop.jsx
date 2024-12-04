@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BannerImage from '../assets/images/BannerImg1.jpg';
 import tomatoImg from '../assets/images/tomato.jpg';
@@ -6,23 +6,27 @@ import BrinjalImg from '../assets/images/brinjal.jpg';
 import CarrotImg from '../assets/images/carrot.jpg';
 import GarlicImg from '../assets/images/garlic.jpg';
 import CucumberImg from '../assets/images/cucumber.jpg';
-import LettuceImg from '../assets/images/lettuce.jpg';
-import OnionImg from '../assets/images/onions.jpg';
-import PotatoeImg from '../assets/images/potatoes.jpg';
-import BitterGurdImg from '../assets/images/BitterGurd.jpg';
-import Navbar from '../components/Navbar';
-import CC_Navbar from '../components/CC_Navbar';
+import CC_Navbar from '../components/Navbar';
 
 const CC_Shop = () => {
   const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false); // Popup state
 
   // Function to handle navigation to product details
   const handleAddToCart = (productName) => {
-    navigate(`/product/${productName}`);
+    // Show the popup instead of navigating
+    setShowPopup(true);
   };
+
+  // Close popup function
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
   return (
     <div className="w-full">
       <CC_Navbar />
+
       {/* Shop Banner Section */}
       <div
         className="relative w-full h-96 bg-cover bg-center mb-6"
@@ -30,13 +34,10 @@ const CC_Shop = () => {
           backgroundImage: `url(${BannerImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-        }}s
+        }}
       >
-        {/* Dark overlay */}
         <div className="absolute inset-0 bg-black opacity-50"></div>
-
-         {/* Title centered */}
-         <div className="absolute inset-0 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center">
           <h1 className="text-white text-4xl font-bold">Our Shop</h1>
         </div>
       </div>
@@ -48,25 +49,18 @@ const CC_Shop = () => {
           className="border border-gray-300 rounded-l px-4 py-2"
           placeholder="Search..."
         />
-        <button className="bg-yellow-500 text-white px-4 py-2 rounded-r">
+        <button onClick={() => handleAddToCart('Brinjal')}className="bg-yellow-500 text-white px-4 py-2 rounded-r">
           Search products
         </button>
       </div>
 
-      {/* Product Grid with 950px max-width */}
-      <div
-        className="grid grid-cols-2 sm:grid-cols-3 gap-4 mx-auto px-5"
-        style={{ maxWidth: '950px' }}
-      >
-        {/* Tomato */}
+      {/* Product Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mx-auto px-5" style={{ maxWidth: '950px' }}>
+        {/* Example product: Tomato */}
         <div className="border rounded-lg p-3 shadow-md hover:shadow-lg">
-          <img
-            src={tomatoImg}
-            alt="Tomato"
-            className="w-64 h-64 object-cover mb-3"
-          />
+          <img src={tomatoImg} alt="Tomato" className="w-64 h-64 object-cover mb-3" />
           <h2 className="text-lg font-semibold">Tomato</h2>
-          <p className="text-gray-700 mb-2">₹80.00</p>
+          <p className="text-gray-700 mb-2">Rs 80.00</p>
           <button
             onClick={() => handleAddToCart('Tomato')}
             className="bg-green-500 text-white px-4 py-2 rounded"
@@ -75,117 +69,57 @@ const CC_Shop = () => {
           </button>
         </div>
         
-        {/* Brinjal */}
+        {/* Repeat for other products */}
         <div className="border rounded-lg p-3 shadow-md hover:shadow-lg">
-          <img
-            src={BrinjalImg}
-            alt="Brinjal"
-            className="w-64 h-64 object-cover mb-3" // Updated size to 250px
-          />
+          <img src={BrinjalImg} alt="Brinjal" className="w-64 h-64 object-cover mb-3" />
           <h2 className="text-lg font-semibold">Brinjal</h2>
-          <p className="text-gray-700 mb-2">₹120.00</p>
-          <button className="bg-green-500 text-white px-4 py-2 rounded">
+          <p className="text-gray-700 mb-2">Rs 120.00</p>
+          <button
+            onClick={() => handleAddToCart('Brinjal')}
+            className="bg-green-500 text-white px-4 py-2 rounded"
+          >
             Add to cart
           </button>
         </div>
 
-        {/* Carrot */}
         <div className="border rounded-lg p-3 shadow-md hover:shadow-lg">
-          <img
-            src={CarrotImg}
-            alt="Carrot"
-            className="w-64 h-64 object-cover mb-3" // Updated size to 250px
-          />
+          <img src={CarrotImg} alt="Carrot" className="w-64 h-64 object-cover mb-3" />
           <h2 className="text-lg font-semibold">Carrot</h2>
-          <p className="text-gray-700 mb-2">₹90.00</p>
-          <button className="bg-green-500 text-white px-4 py-2 rounded">
+          <p className="text-gray-700 mb-2">Rs 90.00</p>
+          <button
+            onClick={() => handleAddToCart('Carrot')}
+            className="bg-green-500 text-white px-4 py-2 rounded"
+          >
             Add to cart
           </button>
         </div>
 
-        {/* Garlic */}
+        {/* Additional product components */}
         <div className="border rounded-lg p-3 shadow-md hover:shadow-lg">
-          <img
-            src={GarlicImg}
-            alt="Garlic"
-            className="w-64 h-64 object-cover mb-3" // Updated size to 250px
-          />
+          <img src={GarlicImg} alt="Garlic" className="w-64 h-64 object-cover mb-3" />
           <h2 className="text-lg font-semibold">Garlic</h2>
-          <p className="text-gray-700 mb-2">₹120.00</p>
-          <button className="bg-green-500 text-white px-4 py-2 rounded">
+          <p className="text-gray-700 mb-2">Rs 120.00</p>
+          <button
+            onClick={() => handleAddToCart('Garlic')}
+            className="bg-green-500 text-white px-4 py-2 rounded"
+          >
             Add to cart
           </button>
         </div>
 
-        {/* Cucumber */}
         <div className="border rounded-lg p-3 shadow-md hover:shadow-lg">
-          <img
-            src={CucumberImg}
-            alt="Cucumber"
-            className="w-64 h-64 object-cover mb-3" // Updated size to 250px
-          />
+          <img src={CucumberImg} alt="Cucumber" className="w-64 h-64 object-cover mb-3" />
           <h2 className="text-lg font-semibold">Cucumber</h2>
-          <p className="text-gray-700 mb-2">₹100.00</p>
-          <button className="bg-green-500 text-white px-4 py-2 rounded">
+          <p className="text-gray-700 mb-2">Rs 100.00</p>
+          <button
+            onClick={() => handleAddToCart('Cucumber')}
+            className="bg-green-500 text-white px-4 py-2 rounded"
+          >
             Add to cart
           </button>
         </div>
 
-        {/* Lettuce */}
-        <div className="border rounded-lg p-3 shadow-md hover:shadow-lg">
-          <img
-            src={LettuceImg}
-            alt="Lettuce"
-            className="w-64 h-64 object-cover mb-3" // Updated size to 250px
-          />
-          <h2 className="text-lg font-semibold">Lettuce</h2>
-          <p className="text-gray-700 mb-2">₹150.00</p>
-          <button className="bg-green-500 text-white px-4 py-2 rounded">
-            Add to cart
-          </button>
-        </div>
-
-        {/* Onions */}
-        <div className="border rounded-lg p-3 shadow-md hover:shadow-lg">
-          <img
-            src={OnionImg}
-            alt="Onions"
-            className="w-64 h-64 object-cover mb-3" // Updated size to 250px
-          />
-          <h2 className="text-lg font-semibold">Onions</h2>
-          <p className="text-gray-700 mb-2">₹210.00</p>
-          <button className="bg-green-500 text-white px-4 py-2 rounded">
-            Add to cart
-          </button>
-        </div>
-
-        {/* Potatoes */}
-        <div className="border rounded-lg p-3 shadow-md hover:shadow-lg">
-          <img
-            src={PotatoeImg}
-            alt="Potatoes"
-            className="w-64 h-64 object-cover mb-3" // Updated size to 250px
-          />
-          <h2 className="text-lg font-semibold">Potatoes</h2>
-          <p className="text-gray-700 mb-2">₹250.00</p>
-          <button className="bg-green-500 text-white px-4 py-2 rounded">
-            Add to cart
-          </button>
-        </div>
-
-        {/* Bitter Gourd */}
-        <div className="border rounded-lg p-3 shadow-md hover:shadow-lg">
-          <img
-            src={BitterGurdImg}
-            alt="Bitter Gourd"
-            className="w-64 h-64 object-cover mb-3" // Updated size to 250px
-          />
-          <h2 className="text-lg font-semibold">Bitter Gourd</h2>
-          <p className="text-gray-700 mb-2">₹100.00</p>
-          <button className="bg-green-500 text-white px-4 py-2 rounded">
-            Add to cart
-          </button>
-        </div>
+        {/* Additional products as per your design */}
       </div>
 
       {/* Pagination */}
@@ -193,6 +127,23 @@ const CC_Shop = () => {
         <button className="bg-gray-200 px-4 py-2 rounded mr-2">1</button>
         <button className="bg-gray-200 px-4 py-2 rounded">2</button>
       </div>
+
+      {/* Popup Message */}
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg">
+            <p className="text-lg font-semibold mb-4">Please sign in to your account !</p>
+            <div className="flex justify-center">
+              <button
+                onClick={closePopup}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

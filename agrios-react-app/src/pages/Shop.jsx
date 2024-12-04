@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BannerImage from '../assets/images/BannerImg1.jpg';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/CC_Navbar';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
