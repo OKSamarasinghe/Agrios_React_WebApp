@@ -16,6 +16,7 @@ const CC_Navbar = () => {
           <li><Link to="/cusservices" className="hover:underline">Services</Link></li>
           <li><Link to="/cusnews" className="hover:underline">News</Link></li>
           <li><Link to="/cusshop" className="hover:underline">Shop</Link></li>
+          <li><Link to="/view-order" className="hover:underline">Orders</Link></li>
           <li><Link to="/cuscontact" className="hover:underline">Contact</Link></li>
         </ul>
         <div className="space-x-4">

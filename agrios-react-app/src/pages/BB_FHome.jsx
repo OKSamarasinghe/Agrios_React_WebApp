@@ -6,9 +6,10 @@ import axios from 'axios';
 const FarmerDashboard = () => {
   const [userData, setUserData] = useState(null);
   const [popularProducts, setPopularProducts] = useState([]);
-  const [productCount, setProductCount] = useState(0); // State to hold product count
+  const [productCount, setProductCount] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
-  
+  const [recentOrders, setRecentOrders] = useState([]);  // State for orders
+
   const userEmail = localStorage.getItem('email');
 
   useEffect(() => {
@@ -28,16 +29,14 @@ const FarmerDashboard = () => {
     fetchUserData();
   }, [userEmail]);
 
-  // Fetch products and product count from existing API
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const productsResponse = await axios.get('http://localhost:8081/products');
-        console.log("Fetched Products: ", productsResponse.data); // Debugging line to check response
+        console.log("Fetched Products: ", productsResponse.data);
         const shuffledProducts = shuffleArray(productsResponse.data);
         setPopularProducts(shuffledProducts.slice(0, 3)); // Take the first 3 shuffled products
 
-        // Set product count by calculating length of fetched products
         setProductCount(productsResponse.data.length);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -45,6 +44,20 @@ const FarmerDashboard = () => {
     };
 
     fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const ordersResponse = await axios.get('http://localhost:8081/orders'); // Replace with actual orders API
+        console.log("Fetched Orders: ", ordersResponse.data);
+        setRecentOrders(ordersResponse.data.slice(0, 3)); // Take the last 3 orders
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
+    };
+
+    fetchOrders();
   }, []);
 
   const shuffleArray = (array) => {
@@ -75,14 +88,8 @@ const FarmerDashboard = () => {
 
   const summaryData = [
     { label: "Orders", value: 25 },
-    { label: "Total Earnings", value: "$2,345" },
-    { label: "Product Listings", value: productCount }, // Display dynamic product count
-  ];
-
-  const recentOrders = [
-    { date: "2023-11-01", status: "Completed", total: "$150", viewLink: "#" },
-    { date: "2023-11-02", status: "Pending", total: "$90", viewLink: "#" },
-    { date: "2023-11-03", status: "Shipped", total: "$120", viewLink: "#" },
+    { label: "Total Earnings", value: "Rs 2,345" },
+    { label: "Product Listings", value: productCount },
   ];
 
   return (
@@ -123,20 +130,20 @@ const FarmerDashboard = () => {
           <table className="w-full border border-gray-300">
             <thead>
               <tr className="bg-gray-100">
+                <th className="py-2 px-4">Product Name</th>
+                <th className="py-2 px-4">Total Price</th>
+                <th className="py-2 px-4">Quantity</th>
                 <th className="py-2 px-4">Date</th>
-                <th className="py-2 px-4">Status</th>
-                <th className="py-2 px-4">Total</th>
-                <th className="py-2 px-4">Action</th>
               </tr>
             </thead>
             <tbody>
               {recentOrders.map((order, index) => (
                 <tr key={index} className="text-center border-b">
-                  <td className="py-2 px-4">{order.date}</td>
-                  <td className="py-2 px-4">{order.status}</td>
-                  <td className="py-2 px-4">{order.total}</td>
-                  <td className="py-2 px-4">
-                    <a href={order.viewLink} className="text-green-600 underline">View</a>
+                  <td className="py-4 px-5">{order.productName}</td>
+                  <td className="py-4 px-5">Rs {order.totalAmount.toFixed(2)}</td>
+                  <td className="py-4 px-5">{order.quantity}</td>
+                  <td className="py-4 px-5">
+                    {new Date(order.orderDate).toLocaleDateString()}
                   </td>
                 </tr>
               ))}
@@ -165,12 +172,6 @@ const FarmerDashboard = () => {
           </div>
         </section>
       </main>
-
-      {showDropdown && (
-        <div className="dropdown" style={{ position: 'absolute', top: '50px', left: '50%' }}>
-          <button onClick={handleCloseDropdown} className="text-red-500">X</button>
-        </div>
-      )}
     </div>
   );
 };

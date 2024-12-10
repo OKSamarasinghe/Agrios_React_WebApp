@@ -1,38 +1,63 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/BB_FNavbar';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import BannerImage from '../assets/images/BannerImg16.jpg';
 
 const OrderHistory = () => {
-  const [selectedFilter, setSelectedFilter] = useState('Date');
-  const navigate = useNavigate();
+  const [orders, setOrders] = useState([]); // Store orders fetched from backend
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
+  const [selectedFilter, setSelectedFilter] = useState('Date'); // Filter state
 
-  const handleProceedToPay = () => {
-    // Add any payment logic here if needed
-    navigate('/orderHistory');  // Step 3: Navigate to Order Confirmation page
+  // Randomize status
+  const randomizeStatus = (orders) => {
+    const statuses = ['Processing', 'Shipped', 'Delivered'];
+    return orders.map((order) => ({
+      ...order,
+      status: statuses[Math.floor(Math.random() * statuses.length)], // Randomly assign a status
+    }));
   };
 
-  // Placeholder data for orders
-  const orders = [
-    { id: 1, product: 'Tomato', status: 'Processing', date: '04/05/2023', price: '$5.99', quantity: 2 },
-    { id: 2, product: 'Carrot', status: 'Shipped', date: '03/27/2023', price: '$3.49', quantity: 5 },
-    { id: 3, product: 'Potato', status: 'Delivered', date: '03/20/2023', price: '$4.29', quantity: 3 },
-    { id: 4, product: 'Eggplant', status: 'Cancelled', date: '03/15/2023', price: '$2.99', quantity: 1 },
-  ];
+  // Fetch orders from the backend
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get('http://localhost:8081/orders'); // Adjust backend URL if needed
+        const randomizedOrders = randomizeStatus(response.data); // Randomize the status
+        setOrders(randomizedOrders);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to fetch orders. Please try again later.');
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  if (loading) {
+    return <div className="text-center mt-10">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center mt-10 text-red-500">{error}</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
 
       {/* Banner */}
-      <div className="bg-cover bg-center h-96 flex items-center justify-center text-white text-4xl font-bold" 
-      style={{
-          backgroundImage: `url(${BannerImage})`, // Properly format the background image
+      <div
+        className="bg-cover bg-center h-96 flex items-center justify-center text-white text-4xl font-bold"
+        style={{
+          backgroundImage: `url(${BannerImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          margin: 0, // Remove margin if any
-          padding: 0 // Remove padding if any
-        }}>
+          margin: 0,
+          padding: 0,
+        }}
+      >
         Order History
       </div>
 
@@ -41,28 +66,38 @@ const OrderHistory = () => {
         <div className="grid grid-cols-4 gap-4 text-center mb-8">
           <div className="bg-white p-6 rounded shadow">
             <h4 className="text-xl font-semibold">Total Orders</h4>
-            <p className="text-2xl mt-2">21</p>
+            <p className="text-2xl mt-2">{orders.length}</p>
           </div>
           <div className="bg-white p-6 rounded shadow">
             <h4 className="text-xl font-semibold">Processing</h4>
-            <p className="text-2xl mt-2">13</p>
+            <p className="text-2xl mt-2">
+              {orders.filter((order) => order.status === 'Processing').length}
+            </p>
           </div>
           <div className="bg-white p-6 rounded shadow">
             <h4 className="text-xl font-semibold">Shipped</h4>
-            <p className="text-2xl mt-2">5</p>
+            <p className="text-2xl mt-2">
+              {orders.filter((order) => order.status === 'Shipped').length}
+            </p>
           </div>
           <div className="bg-white p-6 rounded shadow">
             <h4 className="text-xl font-semibold">Delivered</h4>
-            <p className="text-2xl mt-2">3</p>
+            <p className="text-2xl mt-2">
+              {orders.filter((order) => order.status === 'Delivered').length}
+            </p>
           </div>
         </div>
 
         {/* Order Table */}
         <div className="bg-white p-6 rounded shadow mb-8">
           <h4 className="text-xl font-semibold mb-4">Order Status</h4>
-          <p className="mb-2 text-gray-600">25+ Orders Ready to be Shipped</p>
+          <p className="mb-2 text-gray-600">{orders.length} Orders Available</p>
           <div className="flex justify-end mb-4">
-            <select className="p-2 border rounded" value={selectedFilter} onChange={(e) => setSelectedFilter(e.target.value)}>
+            <select
+              className="p-2 border rounded"
+              value={selectedFilter}
+              onChange={(e) => setSelectedFilter(e.target.value)}
+            >
               <option>Date</option>
               <option>Product</option>
               <option>Status</option>
@@ -77,28 +112,24 @@ const OrderHistory = () => {
                 <th className="border p-4">Date</th>
                 <th className="border p-4">Price</th>
                 <th className="border p-4">Quantity</th>
-                <th className="border p-4">Actions</th>
               </tr>
             </thead>
             <tbody>
               {orders.map((order) => (
                 <tr key={order.id} className="hover:bg-gray-100">
-                  <td className="border p-4">{order.product}</td>
+                  <td className="border p-4">{order.productName}</td>
                   <td className="border p-4">{order.status}</td>
-                  <td className="border p-4">{order.date}</td>
-                  <td className="border p-4">{order.price}</td>
-                  <td className="border p-4">{order.quantity}</td>
                   <td className="border p-4">
-                    <button className="text-blue-500 hover:underline">View</button>
+                    {new Date(order.orderDate).toLocaleDateString()}
                   </td>
+                  <td className="border p-4">Rs {order.totalAmount.toFixed(2)}</td>
+                  <td className="border p-4">{order.quantity}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
-
-      
     </div>
   );
 };
