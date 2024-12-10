@@ -34,6 +34,13 @@ const AAdmin_UserManage = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <AAdmin_Navbar />
+      {/* Dashboard Header */}
+      <header className="bg-green-500 text-white py-12">
+        <div className="max-w-6xl mx-auto text-center">
+          <h1 className="text-4xl font-bold">User Dashboard</h1>
+          <p className="mt-4">Overview of User statistics</p>
+        </div>
+      </header>
       <div className="container mx-auto p-6">
         <h1 className="text-3xl font-bold mb-6 text-gray-800">Admin Customer Management</h1>
         <div className="overflow-x-auto">
@@ -43,7 +50,7 @@ const AAdmin_UserManage = () => {
                 <th className="py-3 px-5">Name</th>
                 <th className="py-3 px-5">Email</th>
                 <th className="py-3 px-5">Phone Number</th>
-                <th className="py-3 px-5">Action</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -52,14 +59,7 @@ const AAdmin_UserManage = () => {
                   <td className="py-4 px-5">{customer.name}</td>
                   <td className="py-4 px-5">{customer.email}</td>
                   <td className="py-4 px-5">{customer.phoneNumber}</td>
-                  <td className="py-4 px-5">
-                    <button 
-                      onClick={() => handleDelete(customer.id)}
-                      className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
-                    >
-                      Delete
-                    </button>
-                  </td>
+                  
                 </tr>
               ))}
             </tbody>
