@@ -84,7 +84,7 @@ const Registration = () => {
 
     // Send form data to backend
     try {
-      const response = await axios.post('http://localhost:8080/agriosuser/users', {
+      const response = await axios.post('http://localhost:8081/users', {
         name: formData.name,
         email: formData.email,
         accountType: formData.accountType,

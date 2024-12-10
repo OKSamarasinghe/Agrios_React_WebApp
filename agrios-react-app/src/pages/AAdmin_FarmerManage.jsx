@@ -12,7 +12,7 @@ const AAdmin_FarmerManage = () => {
 
   const fetchFarmers = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/agriosuser/users', {
+      const response = await axios.get('http://localhost:8081/users', {
         params: { accountType: 'Farmer' },
       });
       setFarmers(response.data);
@@ -24,7 +24,7 @@ const AAdmin_FarmerManage = () => {
   // Delete farmer
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/agriosuser/users/${id}`);
+      await axios.delete(`http://localhost:8081/users/${id}`);
       setFarmers(farmers.filter(farmer => farmer.id !== id));
     } catch (error) {
       console.error("Error deleting farmer:", error);

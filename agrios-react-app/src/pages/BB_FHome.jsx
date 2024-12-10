@@ -15,7 +15,7 @@ const FarmerDashboard = () => {
     const fetchUserData = async () => {
       if (userEmail) {
         try {
-          const response = await axios.get(`http://localhost:8080/agriosuser/users?email=${userEmail}`);
+          const response = await axios.get(`http://localhost:8081/users?email=${userEmail}`);
           setUserData(response.data);
         } catch (error) {
           console.error('Error fetching user data:', error);

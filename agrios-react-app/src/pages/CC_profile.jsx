@@ -24,7 +24,7 @@ const CC_Profile = () => {
     const fetchUserData = async () => {
       try {
         if (userEmail) {
-          const response = await axios.get(`http://localhost:8080/agriosuser/users?email=${userEmail}`);
+          const response = await axios.get(`http://localhost:8081/users?email=${userEmail}`);
           setUserData(response.data);
           setFormData(response.data); // Initialize form data with user data
           setLoading(false);
@@ -64,7 +64,7 @@ const CC_Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:8080/agriosuser/users/${userData.id}`, formData);
+      const response = await axios.put(`http://localhost:8081/users/${userData.id}`, formData);
       setUserData(response.data);
       setEditMode(false); // Exit edit mode after successful update
       alert('Profile updated successfully!');

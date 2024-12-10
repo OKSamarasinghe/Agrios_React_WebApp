@@ -12,7 +12,7 @@ const AAdmin_UserManage = () => {
 
   const fetchCustomers = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/agriosuser/users', {
+      const response = await axios.get('http://localhost:8081/users', {
         params: { accountType: 'Customer' },
       });
       setCustomers(response.data);
@@ -24,7 +24,7 @@ const AAdmin_UserManage = () => {
   // Delete customer
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/agriosuser/users/${id}`);
+      await axios.delete(`http://localhost:8081/users/${id}`);
       setCustomers(customers.filter(customer => customer.id !== id));
     } catch (error) {
       console.error("Error deleting customer:", error);

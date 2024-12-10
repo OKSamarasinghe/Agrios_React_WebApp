@@ -44,7 +44,7 @@ const Login = () => {
 
     try {
       // Using GET request with email and password as query params
-      const response = await axios.get(`http://localhost:8080/agriosuser/users`, {
+      const response = await axios.get(`http://localhost:8081/users`, {
         params: {
           email: formData.email,
           password: formData.password
