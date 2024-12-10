@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+
+import Navbar from '../components/CC_Navbar';
 import BannerImage from '../assets/images/BannerImg2.jpg';
-import AccountImg from '../assets/images/AccountImg.jpg';
 
 const ProductDetail = () => {
   const [product, setProduct] = useState(null);
@@ -39,26 +39,19 @@ const ProductDetail = () => {
     setReviews([...reviews, newReview]);
     setReview('');
   };
-  
 
   const handleAddToCart = () => {
-    // Ensure that the entered quantity does not exceed the available stock
-    if (quantity > product.pquantity) {
-      alert(`Cannot add more than ${product.pquantity} items to the cart`);
-      return;
-    }
-
-    navigate('/cart');
+    // Passing product data via state to the checkout page
+    navigate('/checkout', {
+      state: { product, quantity },
+    });
   };
 
   const handleAddToWishlist = () => {
     navigate('/wishlist');
   };
 
-  if (!product) {
-    return <div>Loading...</div>; // Show loading message while data is being fetched
-  }
-  
+  if (!product) return <div>Loading...</div>; // Show loading message while data is being fetched
 
   return (
     <div>
