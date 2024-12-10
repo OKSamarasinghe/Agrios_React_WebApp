@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/CC_Navbar';
 import BannerImage from '../assets/images/BannerImg5.jpg';
 
 const Checkout = () => {
@@ -9,14 +9,12 @@ const Checkout = () => {
   const { product, quantity } = location.state || {};  // Get the product and quantity passed from the Product Detail page
   const [productData, setProductData] = useState(product || null);  // Initialize state with product data
   const [loading, setLoading] = useState(false); // Set loading state
-  const [address, setAddress] = useState(''); // Track the user address
-  const [showAddressModal, setShowAddressModal] = useState(false); // Track if the address modal should be shown
   const navigate = useNavigate();
 
   // Fetch additional product data if needed
   const fetchProductData = (id) => {
     setLoading(true);  // Start loading
-    axios.get(`/api/products/${id}`)
+    axios.get(`http://localhost:8081/api/products/${id}`)
       .then(response => {
         setProductData(response.data);
         setLoading(false);  // Stop loading
@@ -48,27 +46,40 @@ const Checkout = () => {
 
   const totalItems = qty;
 
+  // Randomly select an address from the list
+  const getRandomAddress = () => {
+    const addresses = ['Colombo', 'Gampaha', 'Galle', 'Matara'];
+    const randomIndex = Math.floor(Math.random() * addresses.length);
+    return addresses[randomIndex];
+  };
+
   // Handle the "Proceed to Pay" button click
   const handleProceedToPay = () => {
-    if (!address.trim()) {
-      setShowAddressModal(true); // Show the modal if address is missing
-    } else {
-      navigate('/order-confirmation'); // Proceed to the next page if address is entered
-    }
+    const orderData = {
+      productId: productData.id,  // Single product ID (not an array)
+      deliveryAddress: getRandomAddress(),  // Random delivery address
+      quantity: qty,  // Include quantity
+      productName: productData.pname,  // Include product name
+      totalAmount: finalTotal,  // Include total amount
+    };
+  
+    axios.post('http://localhost:8081/orders/placeOrder', orderData)
+      .then(response => {
+        navigate('/order-confirmation'); // Navigate on success
+      })
+      .catch(error => {
+        console.error("Error placing order:", error);
+  
+        if (error.response) {
+          alert(`Error: ${error.response.data.message || 'An error occurred while processing your order'}`);
+        } else if (error.request) {
+          alert('No response from the server. Please try again later.');
+        } else {
+          alert(`Error: ${error.message}`);
+        }
+      });
   };
-
-  // Handle address input
-  const handleAddressChange = (e) => {
-    setAddress(e.target.value);
-  };
-
-  const handleContinue = () => {
-    if (address.trim()) {
-      navigate('/order-confirmation'); // Proceed after entering the address
-    } else {
-      alert('Please enter your address to proceed.');
-    }
-  };
+  
 
   return (
     <div>
@@ -145,36 +156,6 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-
-      {/* Address Modal */}
-      {showAddressModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg max-w-sm w-full">
-            <h3 className="text-lg font-semibold mb-4">Enter Your Address</h3>
-            <input
-              type="text"
-              value={address}
-              onChange={handleAddressChange}
-              placeholder="Enter your address here"
-              className="w-full p-2 border border-gray-300 rounded mb-4"
-            />
-            <div className="flex justify-between">
-              <button
-                onClick={() => setShowAddressModal(false)}
-                className="bg-gray-500 text-white px-4 py-2 rounded"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleContinue}
-                className="bg-blue-500 text-white px-4 py-2 rounded"
-              >
-                Continue
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

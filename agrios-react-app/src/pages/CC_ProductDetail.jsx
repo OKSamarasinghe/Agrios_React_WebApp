@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
 import Navbar from '../components/CC_Navbar';
 import BannerImage from '../assets/images/BannerImg2.jpg';
 
