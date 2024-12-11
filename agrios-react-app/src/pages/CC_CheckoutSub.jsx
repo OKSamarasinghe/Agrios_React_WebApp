@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import emailjs from 'emailjs-com';
 import BannerImage from '../assets/images/BannerImg6.jpg';
 
 const CC_Checkout = () => {
@@ -23,24 +24,41 @@ const CC_Checkout = () => {
     // Add your form submission logic here
     console.log('Card details submitted:', cardDetails);
   };
+
   const navigate = useNavigate();
 
   const handleProceedToPay = () => {
     // Add any payment logic here if needed
-    navigate('/sub-order');  // Step 3: Navigate to Order Confirmation page
+
+    // Send email
+    const templateParams = {
+      to_email: 'sohanweerasinghe17@gmail.com',
+      customer_name: cardDetails.cardHolder,
+      code: 'PR7788', // Example code; replace with dynamic value if needed
+    };
+
+    emailjs.send('service_qswx5ss', 'template_p9lci8n', templateParams, 'hkJjQroBVGLt6BKg7')
+      .then((response) => {
+        console.log('Email sent successfully:', response);
+        // After sending email, navigate to Order Confirmation page
+        navigate('/sub-order');
+      })
+      .catch((error) => {
+        console.log('Failed to send email:', error);
+      });
   };
 
   return (
-    <div className="checkout-page flex flex-col items-center p-0"> {/* Set padding to 0 */}
+    <div className="checkout-page flex flex-col items-center p-0">
       {/* Banner Section */}
       <div 
         className="relative w-full h-96 mb-6" 
         style={{
-          backgroundImage: `url(${BannerImage})`, // Properly format the background image
+          backgroundImage: `url(${BannerImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          margin: 0, // Remove margin if any
-          padding: 0 // Remove padding if any
+          margin: 0,
+          padding: 0
         }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -115,7 +133,6 @@ const CC_Checkout = () => {
         >
           Pay Now
         </button>
-        
       </form>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BB_FNavbar from '../components/AAdmin_Navbar'; // Import the Navbar component
 import { Line, Bar } from 'react-chartjs-2';
 import BannerImage from '../assets/images/BannerImg13.jpg';
@@ -31,42 +31,120 @@ const AAdmin_PricePrediction = () => {
   const [selectedTimePeriod, setSelectedTimePeriod] = useState('April 2023');
   const [showDropdown, setShowDropdown] = useState(false);
 
-  // Sample chart data
-  const lineData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-    datasets: [
-      {
-        label: '2023',
-        data: [65, 59, 80, 81, 56, 55, 40],
-        borderColor: 'rgba(75, 192, 192, 1)',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        fill: true,
-      },
-      {
-        label: '2024',
-        data: [28, 48, 40, 19, 86, 27, 90],
-        borderColor: 'rgba(255, 99, 132, 1)',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        fill: true,
-      },
-    ],
+  const [lineData, setLineData] = useState(null);
+  const [barData, setBarData] = useState(null);
+
+  useEffect(() => {
+    // Fetch line chart data
+    fetch('http://localhost:8081/vegetables/price-trends')
+      .then(response => response.json())
+      .then(data => {
+        const groupedData = data.reduce((acc, item) => {
+          const vegetable = item.name;
+          if (!acc[vegetable]) {
+            acc[vegetable] = {
+              label: vegetable,
+              data: [],
+              borderColor: getColorForVegetable(vegetable),
+              backgroundColor: getColorForVegetable(vegetable, 0.2),
+              fill: true,
+            };
+          }
+          acc[vegetable].data.push(item.price);
+          return acc;
+        }, {});
+  
+        const labels = data.map(item => item.date);
+  
+        setLineData({
+          labels: labels,
+          datasets: Object.values(groupedData),
+        });
+      });
+  
+    // Fetch bar chart data
+    fetch('http://localhost:8081/vegetables/price-comparison')
+      .then(response => response.json())
+      .then(data => {
+        // Filter the data to include all vegetables but highlight 'Carrot'
+        const filteredData = data.filter(item => item.vegetable === 'Carrot' || item.vegetable === 'Tomato' || item.vegetable === 'Potato');
+        const labels = filteredData.map(item => item.month);
+        
+        const prices = {
+          Carrot: [],
+          Tomato: [],
+          Potato: []
+        };
+  
+        // Sort prices by vegetable and map them into respective arrays
+        filteredData.forEach(item => {
+          if (item.vegetable === 'Carrot') {
+            prices.Carrot.push(item.price);
+          } else if (item.vegetable === 'Tomato') {
+            prices.Tomato.push(item.price);
+          } else if (item.vegetable === 'Potato') {
+            prices.Potato.push(item.price);
+          }
+        });
+  
+        // Calculate average price for comparison
+        const avgPrice = (prices.Carrot.concat(prices.Tomato, prices.Potato).reduce((acc, price) => acc + price, 0)) /
+                          (prices.Carrot.length + prices.Tomato.length + prices.Potato.length);
+  
+        // Get colors based on price comparison (below, above, or equal to average)
+        const getColor = (price) => price < avgPrice ? 'rgba(75, 192, 192, 0.2)' : price > avgPrice ? 'rgba(255, 99, 132, 0.2)' : 'rgba(255, 159, 64, 0.2)';
+        
+        setBarData({
+          labels: labels,
+          datasets: [
+            {
+              label: 'Carrot Price',
+              data: prices.Carrot,
+              backgroundColor: prices.Carrot.map(price => getColor(price)),
+              borderColor: 'rgba(255, 159, 64, 1)',
+              borderWidth: 1,
+            },
+            {
+              label: 'Tomato Price',
+              data: prices.Tomato,
+              backgroundColor: prices.Tomato.map(price => getColor(price)),
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1,
+            },
+            {
+              label: 'Potato Price',
+              data: prices.Potato,
+              backgroundColor: prices.Potato.map(price => getColor(price)),
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1,
+            },
+          ],
+        });
+      });
+  }, [selectedCategory]); // Re-fetch data when selectedCategory changes
+  
+
+  const getColorForVegetable = (vegetable, opacity = 1) => {
+    const colors = {
+      Carrot: 'rgba(255, 99, 132', // Red
+      Tomato: 'rgba(54, 162, 235', // Blue
+      Potato: 'rgba(75, 192, 192', // Green
+    };
+    return `${colors[vegetable] || 'rgba(255, 159, 64'} , ${opacity})`;
   };
 
-  const barData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-    datasets: [
-      {
-        label: 'Price',
-        data: [12, 19, 3, 5, 2, 3, 7],
-        backgroundColor: 'rgba(255, 159, 64, 0.2)',
-        borderColor: 'rgba(255, 159, 64, 1)',
-        borderWidth: 1,
-      },
-    ],
+  const getColorForPrice = (price, avgPrice) => {
+    if (price < avgPrice) {
+      return 'rgba(75, 192, 192, 0.2)'; // Light Green for below average
+    } else if (price > avgPrice) {
+      return 'rgba(255, 99, 132, 0.2)'; // Light Red for above average
+    } else {
+      return 'rgba(255, 159, 64, 0.2)'; // Light Orange for average
+    }
   };
 
   const handleManageProductsClick = () => {
-    setShowDropdown((prevState) => !prevState);
+    setShowDropdown(prevState => !prevState);
   };
 
   const handleCloseDropdown = () => {
@@ -77,7 +155,6 @@ const AAdmin_PricePrediction = () => {
     <div className="min-h-screen bg-gray-100">
       <BB_FNavbar />
 
-      {/* Banner Section */}
       {/* Dashboard Header */}
       <header className="bg-green-500 text-white py-12">
         <div className="max-w-6xl mx-auto text-center">
@@ -86,74 +163,29 @@ const AAdmin_PricePrediction = () => {
         </div>
       </header>
 
-      {/* Dashboard Content */}
+      {/* Dashboard Summary */}
       <div className="max-w-6xl mx-auto p-8">
-        {/* Summary Section */}
-        <div className="grid grid-cols-4 gap-4 text-center mb-8">
-          <div className="bg-white p-6 rounded shadow">
-            <h4 className="text-xl font-semibold">Logged in as:</h4>
-            <p className="text-2xl mt-2">John Doe</p>
-          </div>
-          <div className="bg-white p-6 rounded shadow">
-            <h4 htmlFor="category" className="text-xl font-semibold">Select Product Category</h4>
-            <select
-              id="category"
-              className="mt-2 p-2 border"
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-            >
-              <option>Carrot</option>
-              <option>Tomato</option>
-              <option>Potato</option>
-            </select>
-          </div>
-          <div className="bg-white p-6 rounded shadow">
-            <h4 className="text-xl font-semibold">Filter Period</h4>
-            <select
-              className="mt-2 p-2 border"
-              value={selectedTimePeriod}
-              onChange={(e) => setSelectedTimePeriod(e.target.value)}
-            >
-              <option>April 2023</option>
-              <option>May 2023</option>
-              <option>June 2023</option>
-            </select>
-          </div>
-          <div className="bg-white p-6 rounded shadow">
-            <h4 className="text-xl font-semibold">Next Best Season</h4>
-            <p className="text-2xl mt-2">March</p>
-          </div>
-        </div>
-
-        {/* Line Chart Section */}
+        {/* Line Chart */}
         <div className="bg-white p-6 rounded shadow mb-8">
           <h4 className="text-xl font-semibold mb-4">Price Trends</h4>
-          <Line data={lineData} />
+          {lineData ? <Line data={lineData} /> : <p>Loading chart...</p>}
         </div>
 
-        {/* Bar Chart Section */}
+        {/* Bar Chart */}
         <div className="bg-white p-6 rounded shadow">
           <h4 className="text-xl font-semibold mb-4">Price Comparison</h4>
-          <Bar data={barData} />
+          {barData ? <Bar data={barData} /> : <p>Loading chart...</p>}
         </div>
       </div>
 
-      {/* Dropdown */}
       {showDropdown && (
-        <div
-          className="dropdown bg-white border rounded shadow p-4"
-          style={{ position: 'absolute', top: '50px', left: '50%' }}
-        >
-          <button
-            onClick={handleCloseDropdown}
-            className="text-red-500 hover:text-red-600 font-semibold"
-          >
-            Close
-          </button>
+        <div className="dropdown" style={{ position: 'absolute', top: '50px', left: '50%' }}>
+          <button onClick={handleCloseDropdown} className="text-red-500">X</button>
         </div>
       )}
     </div>
   );
 };
+
 
 export default AAdmin_PricePrediction;

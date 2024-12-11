@@ -49,6 +49,7 @@ import OrderHistory from './pages/BB_FOrderHistory.jsx';
 import AAdmin_OrderManage from './pages/AAdmin_OrderManage.jsx';
 import AAdmin_ProductManage from './pages/AAdmin_ProductManage .jsx';
 import AAdmin_PricePrediction from './pages/AAdmin_PricePrediction.jsx';
+import CC_PricePrediction from './pages/CC_PricePrediction.jsx';
 
 // Creating the root and rendering the app
 createRoot(document.getElementById('root')).render(
@@ -100,6 +101,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/adminordermanagement" element={<AAdmin_OrderManage />} />
         <Route path="/adminproductmanagement" element={<AAdmin_ProductManage />} />
         <Route path="/adminpricePrediction" element={<AAdmin_PricePrediction />} />
+        <Route path='/cusprediction' element={<CC_PricePrediction />} />
       </Routes>
       <Footer />
     </Router>

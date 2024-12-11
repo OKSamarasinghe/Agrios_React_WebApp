@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import BB_FNavbar from '../components/BB_FNavbar'; // Import the Navbar component
+import BB_FNavbar from '../components/CC_Navbar'; // Import the Navbar component
 import { Line, Bar } from 'react-chartjs-2';
 import BannerImage from '../assets/images/BannerImg13.jpg';
 
@@ -26,13 +26,17 @@ ChartJS.register(
   Legend
 );
 
-const Dashboard = () => {
+const CC_PricePrediction = () => {
   const [selectedCategory, setSelectedCategory] = useState('Carrot');
   const [selectedTimePeriod, setSelectedTimePeriod] = useState('April 2023');
   const [showDropdown, setShowDropdown] = useState(false);
 
   const [lineData, setLineData] = useState(null);
   const [barData, setBarData] = useState(null);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);  // State to check if the user is authenticated
+  const [pinCode, setPinCode] = useState("");  // State to store entered pin code
+  const [showPinModal, setShowPinModal] = useState(true);  // State to control the visibility of the modal
 
   useEffect(() => {
     // Fetch line chart data
@@ -66,7 +70,6 @@ const Dashboard = () => {
     fetch('http://localhost:8081/vegetables/price-comparison')
       .then(response => response.json())
       .then(data => {
-        // Filter the data to include all vegetables but highlight 'Carrot'
         const filteredData = data.filter(item => item.vegetable === 'Carrot' || item.vegetable === 'Tomato' || item.vegetable === 'Potato');
         const labels = filteredData.map(item => item.month);
         
@@ -76,7 +79,6 @@ const Dashboard = () => {
           Potato: []
         };
   
-        // Sort prices by vegetable and map them into respective arrays
         filteredData.forEach(item => {
           if (item.vegetable === 'Carrot') {
             prices.Carrot.push(item.price);
@@ -87,11 +89,9 @@ const Dashboard = () => {
           }
         });
   
-        // Calculate average price for comparison
         const avgPrice = (prices.Carrot.concat(prices.Tomato, prices.Potato).reduce((acc, price) => acc + price, 0)) /
                           (prices.Carrot.length + prices.Tomato.length + prices.Potato.length);
   
-        // Get colors based on price comparison (below, above, or equal to average)
         const getColor = (price) => price < avgPrice ? 'rgba(75, 192, 192, 0.2)' : price > avgPrice ? 'rgba(255, 99, 132, 0.2)' : 'rgba(255, 159, 64, 0.2)';
         
         setBarData({
@@ -121,25 +121,23 @@ const Dashboard = () => {
           ],
         });
       });
-  }, [selectedCategory]); // Re-fetch data when selectedCategory changes
-  
+  }, [selectedCategory]); 
 
   const getColorForVegetable = (vegetable, opacity = 1) => {
     const colors = {
-      Carrot: 'rgba(255, 99, 132', // Red
-      Tomato: 'rgba(54, 162, 235', // Blue
-      Potato: 'rgba(75, 192, 192', // Green
+      Carrot: 'rgba(255, 99, 132', 
+      Tomato: 'rgba(54, 162, 235', 
+      Potato: 'rgba(75, 192, 192', 
     };
     return `${colors[vegetable] || 'rgba(255, 159, 64'} , ${opacity})`;
   };
 
-  const getColorForPrice = (price, avgPrice) => {
-    if (price < avgPrice) {
-      return 'rgba(75, 192, 192, 0.2)'; // Light Green for below average
-    } else if (price > avgPrice) {
-      return 'rgba(255, 99, 132, 0.2)'; // Light Red for above average
+  const handlePinCodeSubmit = () => {
+    if (pinCode === 'PR7788') {
+      setIsAuthenticated(true);  // User is authenticated, allow access to page
+      setShowPinModal(false);  // Close the modal
     } else {
-      return 'rgba(255, 159, 64, 0.2)'; // Light Orange for average
+      alert("Incorrect Pin Code. Please try again.");
     }
   };
 
@@ -150,6 +148,30 @@ const Dashboard = () => {
   const handleCloseDropdown = () => {
     setShowDropdown(false);
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-green-500">
+        {/* Modal for Pin Code Entry */}
+        <div className="bg-white p-6 rounded shadow-lg">
+          <h2 className="text-2xl mb-4">Enter Your Premium Pin Code</h2>
+          <input
+            type="text"
+            value={pinCode}
+            onChange={(e) => setPinCode(e.target.value)}
+            className="p-2 border border-gray-300 rounded mb-4"
+            placeholder="Enter Pin Code"
+          />
+          <button 
+            onClick={handlePinCodeSubmit}
+            className="bg-green-700 text-white p-2 rounded"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -191,4 +213,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default CC_PricePrediction;
