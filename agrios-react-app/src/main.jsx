@@ -51,6 +51,7 @@ import AAdmin_ProductManage from './pages/AAdmin_ProductManage .jsx';
 import AAdmin_PricePrediction from './pages/AAdmin_PricePrediction.jsx';
 import CC_PricePrediction from './pages/CC_PricePrediction.jsx';
 import AAdmin_HelpandSupport from './pages/AAdmin_HelpandSupport.jsx';
+import ForgetPW from './pages/ForgetPW.jsx';
 
 // Creating the root and rendering the app
 createRoot(document.getElementById('root')).render(
@@ -104,6 +105,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/adminpricePrediction" element={<AAdmin_PricePrediction />} />
         <Route path='/cusprediction' element={<CC_PricePrediction />} />
         <Route path='/adminhelpsupport' element={<AAdmin_HelpandSupport />} />
+        <Route path='/forgetpw' element={<ForgetPW />} />
       </Routes>
       <Footer />
     </Router>

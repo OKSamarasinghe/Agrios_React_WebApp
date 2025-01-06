@@ -28,7 +28,6 @@ ChartJS.register(
 
 const CC_PricePrediction = () => {
   const [selectedCategory, setSelectedCategory] = useState('Carrot');
-  const [selectedTimePeriod, setSelectedTimePeriod] = useState('April 2023');
   const [showDropdown, setShowDropdown] = useState(false);
 
   const [lineData, setLineData] = useState(null);
@@ -57,15 +56,15 @@ const CC_PricePrediction = () => {
           acc[vegetable].data.push(item.price);
           return acc;
         }, {});
-  
+
         const labels = data.map(item => item.date);
-  
+
         setLineData({
           labels: labels,
           datasets: Object.values(groupedData),
         });
       });
-  
+
     // Fetch bar chart data
     fetch('http://localhost:8081/vegetables/price-comparison')
       .then(response => response.json())
@@ -78,7 +77,7 @@ const CC_PricePrediction = () => {
           Tomato: [],
           Potato: []
         };
-  
+
         filteredData.forEach(item => {
           if (item.vegetable === 'Carrot') {
             prices.Carrot.push(item.price);
@@ -88,33 +87,47 @@ const CC_PricePrediction = () => {
             prices.Potato.push(item.price);
           }
         });
-  
+
         const avgPrice = (prices.Carrot.concat(prices.Tomato, prices.Potato).reduce((acc, price) => acc + price, 0)) /
                           (prices.Carrot.length + prices.Tomato.length + prices.Potato.length);
-  
+
         const getColor = (price) => price < avgPrice ? 'rgba(75, 192, 192, 0.2)' : price > avgPrice ? 'rgba(255, 99, 132, 0.2)' : 'rgba(255, 159, 64, 0.2)';
-        
+
+        // Predict next month's prices
+        const predictNextMonthPrice = (pricesArray) => {
+          if (pricesArray.length === 0) return 0;
+          return (pricesArray.reduce((acc, price) => acc + price, 0) / pricesArray.length).toFixed(2);
+        };
+
+        const predictedPrices = {
+          Carrot: predictNextMonthPrice(prices.Carrot),
+          Tomato: predictNextMonthPrice(prices.Tomato),
+          Potato: predictNextMonthPrice(prices.Potato),
+        };
+
+        const nextMonthLabel = "Next Month";
+
         setBarData({
-          labels: labels,
+          labels: [...labels, nextMonthLabel],
           datasets: [
             {
               label: 'Carrot Price',
-              data: prices.Carrot,
-              backgroundColor: prices.Carrot.map(price => getColor(price)),
+              data: [...prices.Carrot, predictedPrices.Carrot],
+              backgroundColor: [...prices.Carrot.map(price => getColor(price)), 'rgba(255, 206, 86, 0.2)'],
               borderColor: 'rgba(255, 159, 64, 1)',
               borderWidth: 1,
             },
             {
               label: 'Tomato Price',
-              data: prices.Tomato,
-              backgroundColor: prices.Tomato.map(price => getColor(price)),
+              data: [...prices.Tomato, predictedPrices.Tomato],
+              backgroundColor: [...prices.Tomato.map(price => getColor(price)), 'rgba(153, 102, 255, 0.2)'],
               borderColor: 'rgba(54, 162, 235, 1)',
               borderWidth: 1,
             },
             {
               label: 'Potato Price',
-              data: prices.Potato,
-              backgroundColor: prices.Potato.map(price => getColor(price)),
+              data: [...prices.Potato, predictedPrices.Potato],
+              backgroundColor: [...prices.Potato.map(price => getColor(price)), 'rgba(75, 192, 192, 0.2)'],
               borderColor: 'rgba(75, 192, 192, 1)',
               borderWidth: 1,
             },
@@ -198,9 +211,28 @@ const CC_PricePrediction = () => {
         </div>
 
         {/* Bar Chart */}
-        <div className="bg-white p-6 rounded shadow">
+        <div className="bg-white p-6 rounded shadow mb-8">
           <h4 className="text-xl font-semibold mb-4">Price Comparison</h4>
           {barData ? <Bar data={barData} /> : <p>Loading chart...</p>}
+        </div>
+
+        {/* Next Month Predictions */}
+        <div className="bg-white p-6 rounded shadow">
+          <h4 className="text-xl font-semibold mb-4">Next Month Price Predictions</h4>
+          {barData ? (
+            <ul className="list-disc pl-5">
+              {barData.datasets.map((dataset, index) => {
+                const predictedPrice = dataset.data[dataset.data.length - 1]; // Last data point is the prediction
+                return (
+                  <li key={index} className="mb-2">
+                    <span className="font-bold">{dataset.label.replace(' Price', '')}:</span> Rs. {predictedPrice}
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <p>Loading predictions...</p>
+          )}
         </div>
       </div>
 
@@ -214,3 +246,4 @@ const CC_PricePrediction = () => {
 };
 
 export default CC_PricePrediction;
+
