@@ -127,7 +127,7 @@ const Login = () => {
 
             <div className="flex items-center justify-between mt-4">
               <div className="text-sm">
-                <a href="#" className="font-medium text-green-600 hover:text-green-500">Forgot password?</a>
+                <a href="/forgetpw" className="font-medium text-green-600 hover:text-green-500">Forgot password?</a>
               </div>
             </div>
 
@@ -141,17 +141,22 @@ const Login = () => {
             </div>
 
             <div className="mt-6 flex items-center justify-center">
-              <button
-                type="button"
-                className="group flex justify-center py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-              >
-                <img
-                  src={GoogleIcon}
-                  alt="Google icon"
-                  className="w-5 h-5 mr-2"
-                />
-                Sign in with Google
-              </button>
+            <button
+              type="button"
+              className="group flex justify-center py-2 px-4 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              onClick={() => {
+              // Replace the below URL with your actual Google OAuth link
+               window.location.href = 'https://accounts.google.com/o/oauth2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=profile email';
+           }}
+    >
+      <img
+        src={GoogleIcon}
+        alt="Google icon"
+        className="w-5 h-5 mr-2"
+    />
+        Sign in with Google
+    </button>
+
             </div>
 
             <div className="text-sm text-center mt-4">
