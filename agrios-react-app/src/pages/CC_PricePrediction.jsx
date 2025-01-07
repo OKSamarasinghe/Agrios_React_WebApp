@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import BB_FNavbar from '../components/CC_Navbar'; // Import the Navbar component
+import BB_FNavbar from '../components/CC_Navbar';
 import { Line, Bar } from 'react-chartjs-2';
 import BannerImage from '../assets/images/BannerImg13.jpg';
 
@@ -32,10 +32,11 @@ const CC_PricePrediction = () => {
 
   const [lineData, setLineData] = useState(null);
   const [barData, setBarData] = useState(null);
+  const [predictionData, setPredictionData] = useState(null);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);  // State to check if the user is authenticated
-  const [pinCode, setPinCode] = useState("");  // State to store entered pin code
-  const [showPinModal, setShowPinModal] = useState(true);  // State to control the visibility of the modal
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [pinCode, setPinCode] = useState("");
+  const [showPinModal, setShowPinModal] = useState(true);
 
   useEffect(() => {
     // Fetch line chart data
@@ -71,7 +72,7 @@ const CC_PricePrediction = () => {
       .then(data => {
         const filteredData = data.filter(item => item.vegetable === 'Carrot' || item.vegetable === 'Tomato' || item.vegetable === 'Potato');
         const labels = filteredData.map(item => item.month);
-        
+
         const prices = {
           Carrot: [],
           Tomato: [],
@@ -88,84 +89,94 @@ const CC_PricePrediction = () => {
           }
         });
 
-        const avgPrice = (prices.Carrot.concat(prices.Tomato, prices.Potato).reduce((acc, price) => acc + price, 0)) /
-                          (prices.Carrot.length + prices.Tomato.length + prices.Potato.length);
-
-        const getColor = (price) => price < avgPrice ? 'rgba(75, 192, 192, 0.2)' : price > avgPrice ? 'rgba(255, 99, 132, 0.2)' : 'rgba(255, 159, 64, 0.2)';
-
-        // Predict next month's prices
-        const predictNextMonthPrice = (pricesArray) => {
-          if (pricesArray.length === 0) return 0;
-          return (pricesArray.reduce((acc, price) => acc + price, 0) / pricesArray.length).toFixed(2);
-        };
-
-        const predictedPrices = {
-          Carrot: predictNextMonthPrice(prices.Carrot),
-          Tomato: predictNextMonthPrice(prices.Tomato),
-          Potato: predictNextMonthPrice(prices.Potato),
-        };
-
-        const nextMonthLabel = "Next Month";
+        const nextMonthPrices = predictNextMonthPrices(prices);
 
         setBarData({
-          labels: [...labels, nextMonthLabel],
+          labels: [...labels, "Next Month"],
+          datasets: Object.keys(prices).map((vegetable, index) => {
+            return {
+              label: `${vegetable} Price`,
+              data: [...prices[vegetable], nextMonthPrices[vegetable]],
+              backgroundColor: getColorForVegetable(vegetable, 0.2),
+              borderColor: getColorForVegetable(vegetable),
+              borderWidth: 1,
+            };
+          })
+        });
+
+        // Linear Regression Prediction
+        const regressionPredictions = calculateLinearRegression(prices);
+        setPredictionData({
+          labels: ["Carrot", "Tomato", "Potato"],
           datasets: [
             {
-              label: 'Carrot Price',
-              data: [...prices.Carrot, predictedPrices.Carrot],
-              backgroundColor: [...prices.Carrot.map(price => getColor(price)), 'rgba(255, 206, 86, 0.2)'],
-              borderColor: 'rgba(255, 159, 64, 1)',
-              borderWidth: 1,
-            },
-            {
-              label: 'Tomato Price',
-              data: [...prices.Tomato, predictedPrices.Tomato],
-              backgroundColor: [...prices.Tomato.map(price => getColor(price)), 'rgba(153, 102, 255, 0.2)'],
-              borderColor: 'rgba(54, 162, 235, 1)',
-              borderWidth: 1,
-            },
-            {
-              label: 'Potato Price',
-              data: [...prices.Potato, predictedPrices.Potato],
-              backgroundColor: [...prices.Potato.map(price => getColor(price)), 'rgba(75, 192, 192, 0.2)'],
-              borderColor: 'rgba(75, 192, 192, 1)',
+              label: 'Predicted Prices',
+              data: regressionPredictions,
+              backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(75, 192, 192, 0.6)'],
+              borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'],
               borderWidth: 1,
             },
           ],
         });
       });
-  }, [selectedCategory]); 
+  }, [selectedCategory]);
+
+  const predictNextMonthPrices = (prices) => {
+    const result = {};
+    Object.keys(prices).forEach(vegetable => {
+      const data = prices[vegetable];
+      if (data.length > 0) {
+        result[vegetable] = (data.reduce((acc, val) => acc + val, 0) / data.length).toFixed(2);
+      } else {
+        result[vegetable] = 0;
+      }
+    });
+    return result;
+  };
+
+  const calculateLinearRegression = (prices) => {
+    return Object.keys(prices).map(vegetable => {
+      const data = prices[vegetable];
+      if (data.length === 0) return 0;
+
+      const n = data.length;
+      const x = Array.from({ length: n }, (_, i) => i + 1);
+      const y = data;
+
+      const sumX = x.reduce((acc, val) => acc + val, 0);
+      const sumY = y.reduce((acc, val) => acc + val, 0);
+      const sumXY = x.reduce((acc, val, i) => acc + val * y[i], 0);
+      const sumX2 = x.reduce((acc, val) => acc + val * val, 0);
+
+      const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+      const intercept = (sumY - slope * sumX) / n;
+
+      const nextX = n + 1;
+      return (slope * nextX + intercept).toFixed(2);
+    });
+  };
 
   const getColorForVegetable = (vegetable, opacity = 1) => {
     const colors = {
-      Carrot: 'rgba(255, 99, 132', 
-      Tomato: 'rgba(54, 162, 235', 
-      Potato: 'rgba(75, 192, 192', 
+      Carrot: 'rgba(255, 99, 132',
+      Tomato: 'rgba(54, 162, 235',
+      Potato: 'rgba(75, 192, 192',
     };
     return `${colors[vegetable] || 'rgba(255, 159, 64'} , ${opacity})`;
   };
 
   const handlePinCodeSubmit = () => {
     if (pinCode === 'PR7788') {
-      setIsAuthenticated(true);  // User is authenticated, allow access to page
-      setShowPinModal(false);  // Close the modal
+      setIsAuthenticated(true);
+      setShowPinModal(false);
     } else {
       alert("Incorrect Pin Code. Please try again.");
     }
   };
 
-  const handleManageProductsClick = () => {
-    setShowDropdown(prevState => !prevState);
-  };
-
-  const handleCloseDropdown = () => {
-    setShowDropdown(false);
-  };
-
   if (!isAuthenticated) {
     return (
       <div className="flex justify-center items-center h-screen bg-green-500">
-        {/* Modal for Pin Code Entry */}
         <div className="bg-white p-6 rounded shadow-lg">
           <h2 className="text-2xl mb-4">Enter Your Premium Pin Code</h2>
           <input
@@ -188,9 +199,8 @@ const CC_PricePrediction = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <BB_FNavbar onManageProductsClick={handleManageProductsClick} showDropdown={showDropdown} />
+      <BB_FNavbar />
 
-      {/* Banner */}
       <div
         className="bg-cover bg-center h-96 flex items-center justify-center text-white text-4xl font-bold"
         style={{
@@ -202,48 +212,24 @@ const CC_PricePrediction = () => {
         Future Market Prices
       </div>
 
-      {/* Dashboard Summary */}
       <div className="max-w-6xl mx-auto p-8">
-        {/* Line Chart */}
         <div className="bg-white p-6 rounded shadow mb-8">
           <h4 className="text-xl font-semibold mb-4">Price Trends</h4>
           {lineData ? <Line data={lineData} /> : <p>Loading chart...</p>}
         </div>
 
-        {/* Bar Chart */}
         <div className="bg-white p-6 rounded shadow mb-8">
           <h4 className="text-xl font-semibold mb-4">Price Comparison</h4>
           {barData ? <Bar data={barData} /> : <p>Loading chart...</p>}
         </div>
 
-        {/* Next Month Predictions */}
-        <div className="bg-white p-6 rounded shadow">
-          <h4 className="text-xl font-semibold mb-4">Next Month Price Predictions</h4>
-          {barData ? (
-            <ul className="list-disc pl-5">
-              {barData.datasets.map((dataset, index) => {
-                const predictedPrice = dataset.data[dataset.data.length - 1]; // Last data point is the prediction
-                return (
-                  <li key={index} className="mb-2">
-                    <span className="font-bold">{dataset.label.replace(' Price', '')}:</span> Rs. {predictedPrice}
-                  </li>
-                );
-              })}
-            </ul>
-          ) : (
-            <p>Loading predictions...</p>
-          )}
+        <div className="bg-white p-6 rounded shadow mb-8">
+          <h4 className="text-xl font-semibold mb-4">Linear Regression Price Predictions</h4>
+          {predictionData ? <Bar data={predictionData} /> : <p>Loading predictions...</p>}
         </div>
       </div>
-
-      {showDropdown && (
-        <div className="dropdown" style={{ position: 'absolute', top: '50px', left: '50%' }}>
-          <button onClick={handleCloseDropdown} className="text-red-500">X</button>
-        </div>
-      )}
     </div>
   );
 };
 
 export default CC_PricePrediction;
-
