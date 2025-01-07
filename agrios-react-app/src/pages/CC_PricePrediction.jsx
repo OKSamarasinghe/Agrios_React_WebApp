@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import BB_FNavbar from '../components/CC_Navbar';
 import { Line, Bar } from 'react-chartjs-2';
 import BannerImage from '../assets/images/BannerImg13.jpg';
+import ChatbotAssistant from '../components/ChatbotAssistant';
+
 
 import {
   Chart as ChartJS,
@@ -228,6 +230,8 @@ const CC_PricePrediction = () => {
           {predictionData ? <Bar data={predictionData} /> : <p>Loading predictions...</p>}
         </div>
       </div>
+      {/* Chatbot */}
+    <ChatbotAssistant />
     </div>
   );
 };

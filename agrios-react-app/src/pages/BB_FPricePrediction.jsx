@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BB_FNavbar from '../components/BB_FNavbar'; // Import the Navbar component
 import { Line, Bar } from 'react-chartjs-2';
 import BannerImage from '../assets/images/BannerImg13.jpg';
+import ChatbotAssistant from '../components/ChatbotAssistant';
 
 import {
   Chart as ChartJS,
@@ -28,11 +29,15 @@ ChartJS.register(
 
 const Dashboard = () => {
   const [selectedCategory, setSelectedCategory] = useState('Carrot');
-  const [selectedTimePeriod, setSelectedTimePeriod] = useState('April 2023');
   const [showDropdown, setShowDropdown] = useState(false);
 
   const [lineData, setLineData] = useState(null);
   const [barData, setBarData] = useState(null);
+  const [predictionData, setPredictionData] = useState(null);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [pinCode, setPinCode] = useState('');
+  const [showPinModal, setShowPinModal] = useState(true);
 
   useEffect(() => {
     // Fetch line chart data
@@ -53,107 +58,134 @@ const Dashboard = () => {
           acc[vegetable].data.push(item.price);
           return acc;
         }, {});
-  
+
         const labels = data.map(item => item.date);
-  
+
         setLineData({
           labels: labels,
           datasets: Object.values(groupedData),
         });
       });
-  
+
     // Fetch bar chart data
     fetch('http://localhost:8081/vegetables/price-comparison')
       .then(response => response.json())
       .then(data => {
-        // Filter the data to include all vegetables but highlight 'Carrot'
-        const filteredData = data.filter(item => item.vegetable === 'Carrot' || item.vegetable === 'Tomato' || item.vegetable === 'Potato');
+        const filteredData = data.filter(item => ['Carrot', 'Tomato', 'Potato'].includes(item.vegetable));
         const labels = filteredData.map(item => item.month);
-        
+
         const prices = {
           Carrot: [],
           Tomato: [],
-          Potato: []
+          Potato: [],
         };
-  
-        // Sort prices by vegetable and map them into respective arrays
+
         filteredData.forEach(item => {
-          if (item.vegetable === 'Carrot') {
-            prices.Carrot.push(item.price);
-          } else if (item.vegetable === 'Tomato') {
-            prices.Tomato.push(item.price);
-          } else if (item.vegetable === 'Potato') {
-            prices.Potato.push(item.price);
-          }
+          prices[item.vegetable].push(item.price);
         });
-  
-        // Calculate average price for comparison
-        const avgPrice = (prices.Carrot.concat(prices.Tomato, prices.Potato).reduce((acc, price) => acc + price, 0)) /
-                          (prices.Carrot.length + prices.Tomato.length + prices.Potato.length);
-  
-        // Get colors based on price comparison (below, above, or equal to average)
-        const getColor = (price) => price < avgPrice ? 'rgba(75, 192, 192, 0.2)' : price > avgPrice ? 'rgba(255, 99, 132, 0.2)' : 'rgba(255, 159, 64, 0.2)';
-        
+
+        const nextMonthPrices = predictNextMonthPrices(prices);
+
         setBarData({
-          labels: labels,
+          labels: [...labels, 'Next Month'],
+          datasets: Object.keys(prices).map(vegetable => ({
+            label: `${vegetable} Price`,
+            data: [...prices[vegetable], nextMonthPrices[vegetable]],
+            backgroundColor: getColorForVegetable(vegetable, 0.2),
+            borderColor: getColorForVegetable(vegetable),
+            borderWidth: 1,
+          })),
+        });
+
+        const regressionPredictions = calculateLinearRegression(prices);
+        setPredictionData({
+          labels: ['Carrot', 'Tomato', 'Potato'],
           datasets: [
             {
-              label: 'Carrot Price',
-              data: prices.Carrot,
-              backgroundColor: prices.Carrot.map(price => getColor(price)),
-              borderColor: 'rgba(255, 159, 64, 1)',
-              borderWidth: 1,
-            },
-            {
-              label: 'Tomato Price',
-              data: prices.Tomato,
-              backgroundColor: prices.Tomato.map(price => getColor(price)),
-              borderColor: 'rgba(54, 162, 235, 1)',
-              borderWidth: 1,
-            },
-            {
-              label: 'Potato Price',
-              data: prices.Potato,
-              backgroundColor: prices.Potato.map(price => getColor(price)),
-              borderColor: 'rgba(75, 192, 192, 1)',
+              label: 'Predicted Prices',
+              data: regressionPredictions,
+              backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(75, 192, 192, 0.6)'],
+              borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'],
               borderWidth: 1,
             },
           ],
         });
       });
-  }, [selectedCategory]); // Re-fetch data when selectedCategory changes
-  
+  }, [selectedCategory]);
+
+  const predictNextMonthPrices = (prices) => {
+    const result = {};
+    Object.keys(prices).forEach(vegetable => {
+      const data = prices[vegetable];
+      result[vegetable] = (data.reduce((acc, val) => acc + val, 0) / data.length).toFixed(2);
+    });
+    return result;
+  };
+
+  const calculateLinearRegression = (prices) => {
+    return Object.keys(prices).map(vegetable => {
+      const data = prices[vegetable];
+      const n = data.length;
+      const x = Array.from({ length: n }, (_, i) => i + 1);
+      const y = data;
+
+      const sumX = x.reduce((acc, val) => acc + val, 0);
+      const sumY = y.reduce((acc, val) => acc + val, 0);
+      const sumXY = x.reduce((acc, val, i) => acc + val * y[i], 0);
+      const sumX2 = x.reduce((acc, val) => acc + val * val, 0);
+
+      const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+      const intercept = (sumY - slope * sumX) / n;
+
+      const nextX = n + 1;
+      return (slope * nextX + intercept).toFixed(2);
+    });
+  };
 
   const getColorForVegetable = (vegetable, opacity = 1) => {
     const colors = {
-      Carrot: 'rgba(255, 99, 132', // Red
-      Tomato: 'rgba(54, 162, 235', // Blue
-      Potato: 'rgba(75, 192, 192', // Green
+      Carrot: 'rgba(255, 99, 132',
+      Tomato: 'rgba(54, 162, 235',
+      Potato: 'rgba(75, 192, 192',
     };
     return `${colors[vegetable] || 'rgba(255, 159, 64'} , ${opacity})`;
   };
 
-  const getColorForPrice = (price, avgPrice) => {
-    if (price < avgPrice) {
-      return 'rgba(75, 192, 192, 0.2)'; // Light Green for below average
-    } else if (price > avgPrice) {
-      return 'rgba(255, 99, 132, 0.2)'; // Light Red for above average
+  const handlePinCodeSubmit = () => {
+    if (pinCode === 'PR7788') {
+      setIsAuthenticated(true);
+      setShowPinModal(false);
     } else {
-      return 'rgba(255, 159, 64, 0.2)'; // Light Orange for average
+      alert('Incorrect Pin Code. Please try again.');
     }
   };
 
-  const handleManageProductsClick = () => {
-    setShowDropdown(prevState => !prevState);
-  };
-
-  const handleCloseDropdown = () => {
-    setShowDropdown(false);
-  };
+  if (!isAuthenticated) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-green-500">
+        <div className="bg-white p-6 rounded shadow-lg">
+          <h2 className="text-2xl mb-4">Enter Your Premium Pin Code</h2>
+          <input
+            type="text"
+            value={pinCode}
+            onChange={(e) => setPinCode(e.target.value)}
+            className="p-2 border border-gray-300 rounded mb-4"
+            placeholder="Enter Pin Code"
+          />
+          <button
+            onClick={handlePinCodeSubmit}
+            className="bg-green-700 text-white p-2 rounded"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <BB_FNavbar onManageProductsClick={handleManageProductsClick} showDropdown={showDropdown} />
+      <BB_FNavbar />
 
       {/* Banner */}
       <div
@@ -176,17 +208,20 @@ const Dashboard = () => {
         </div>
 
         {/* Bar Chart */}
-        <div className="bg-white p-6 rounded shadow">
+        <div className="bg-white p-6 rounded shadow mb-8">
           <h4 className="text-xl font-semibold mb-4">Price Comparison</h4>
           {barData ? <Bar data={barData} /> : <p>Loading chart...</p>}
         </div>
+
+        {/* Predictions */}
+        <div className="bg-white p-6 rounded shadow mb-8">
+          <h4 className="text-xl font-semibold mb-4">Linear Regression Price Predictions</h4>
+          {predictionData ? <Bar data={predictionData} /> : <p>Loading predictions...</p>}
+        </div>
       </div>
 
-      {showDropdown && (
-        <div className="dropdown" style={{ position: 'absolute', top: '50px', left: '50%' }}>
-          <button onClick={handleCloseDropdown} className="text-red-500">X</button>
-        </div>
-      )}
+      {/* Chatbot */}
+      <ChatbotAssistant />
     </div>
   );
 };

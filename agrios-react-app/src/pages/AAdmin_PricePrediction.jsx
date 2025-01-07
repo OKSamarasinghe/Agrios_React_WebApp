@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BB_FNavbar from '../components/AAdmin_Navbar'; // Import the Navbar component
 import { Line, Bar } from 'react-chartjs-2';
 import BannerImage from '../assets/images/BannerImg13.jpg';
+import ChatbotAssistant from '../components/ChatbotAssistant';
 
 import {
   Chart as ChartJS,
@@ -28,11 +29,11 @@ ChartJS.register(
 
 const AAdmin_PricePrediction = () => {
   const [selectedCategory, setSelectedCategory] = useState('Carrot');
-  const [selectedTimePeriod, setSelectedTimePeriod] = useState('April 2023');
   const [showDropdown, setShowDropdown] = useState(false);
 
   const [lineData, setLineData] = useState(null);
   const [barData, setBarData] = useState(null);
+  const [predictionData, setPredictionData] = useState(null);
 
   useEffect(() => {
     // Fetch line chart data
@@ -53,30 +54,28 @@ const AAdmin_PricePrediction = () => {
           acc[vegetable].data.push(item.price);
           return acc;
         }, {});
-  
+
         const labels = data.map(item => item.date);
-  
+
         setLineData({
           labels: labels,
           datasets: Object.values(groupedData),
         });
       });
-  
+
     // Fetch bar chart data
     fetch('http://localhost:8081/vegetables/price-comparison')
       .then(response => response.json())
       .then(data => {
-        // Filter the data to include all vegetables but highlight 'Carrot'
         const filteredData = data.filter(item => item.vegetable === 'Carrot' || item.vegetable === 'Tomato' || item.vegetable === 'Potato');
         const labels = filteredData.map(item => item.month);
-        
+
         const prices = {
           Carrot: [],
           Tomato: [],
           Potato: []
         };
-  
-        // Sort prices by vegetable and map them into respective arrays
+
         filteredData.forEach(item => {
           if (item.vegetable === 'Carrot') {
             prices.Carrot.push(item.price);
@@ -86,61 +85,81 @@ const AAdmin_PricePrediction = () => {
             prices.Potato.push(item.price);
           }
         });
-  
-        // Calculate average price for comparison
-        const avgPrice = (prices.Carrot.concat(prices.Tomato, prices.Potato).reduce((acc, price) => acc + price, 0)) /
-                          (prices.Carrot.length + prices.Tomato.length + prices.Potato.length);
-  
-        // Get colors based on price comparison (below, above, or equal to average)
-        const getColor = (price) => price < avgPrice ? 'rgba(75, 192, 192, 0.2)' : price > avgPrice ? 'rgba(255, 99, 132, 0.2)' : 'rgba(255, 159, 64, 0.2)';
-        
+
+        const nextMonthPrices = predictNextMonthPrices(prices);
+
         setBarData({
-          labels: labels,
+          labels: [...labels, "Next Month"],
+          datasets: Object.keys(prices).map((vegetable, index) => {
+            return {
+              label: `${vegetable} Price`,
+              data: [...prices[vegetable], nextMonthPrices[vegetable]],
+              backgroundColor: getColorForVegetable(vegetable, 0.2),
+              borderColor: getColorForVegetable(vegetable),
+              borderWidth: 1,
+            };
+          })
+        });
+
+        // Linear Regression Prediction
+        const regressionPredictions = calculateLinearRegression(prices);
+        setPredictionData({
+          labels: ["Carrot", "Tomato", "Potato"],
           datasets: [
             {
-              label: 'Carrot Price',
-              data: prices.Carrot,
-              backgroundColor: prices.Carrot.map(price => getColor(price)),
-              borderColor: 'rgba(255, 159, 64, 1)',
-              borderWidth: 1,
-            },
-            {
-              label: 'Tomato Price',
-              data: prices.Tomato,
-              backgroundColor: prices.Tomato.map(price => getColor(price)),
-              borderColor: 'rgba(54, 162, 235, 1)',
-              borderWidth: 1,
-            },
-            {
-              label: 'Potato Price',
-              data: prices.Potato,
-              backgroundColor: prices.Potato.map(price => getColor(price)),
-              borderColor: 'rgba(75, 192, 192, 1)',
+              label: 'Predicted Prices',
+              data: regressionPredictions,
+              backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(75, 192, 192, 0.6)'],
+              borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)'],
               borderWidth: 1,
             },
           ],
         });
       });
-  }, [selectedCategory]); // Re-fetch data when selectedCategory changes
-  
+  }, [selectedCategory]);
+
+  const predictNextMonthPrices = (prices) => {
+    const result = {};
+    Object.keys(prices).forEach(vegetable => {
+      const data = prices[vegetable];
+      if (data.length > 0) {
+        result[vegetable] = (data.reduce((acc, val) => acc + val, 0) / data.length).toFixed(2);
+      } else {
+        result[vegetable] = 0;
+      }
+    });
+    return result;
+  };
+
+  const calculateLinearRegression = (prices) => {
+    return Object.keys(prices).map(vegetable => {
+      const data = prices[vegetable];
+      if (data.length === 0) return 0;
+
+      const n = data.length;
+      const x = Array.from({ length: n }, (_, i) => i + 1);
+      const y = data;
+
+      const sumX = x.reduce((acc, val) => acc + val, 0);
+      const sumY = y.reduce((acc, val) => acc + val, 0);
+      const sumXY = x.reduce((acc, val, i) => acc + val * y[i], 0);
+      const sumX2 = x.reduce((acc, val) => acc + val * val, 0);
+
+      const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+      const intercept = (sumY - slope * sumX) / n;
+
+      const nextX = n + 1;
+      return (slope * nextX + intercept).toFixed(2);
+    });
+  };
 
   const getColorForVegetable = (vegetable, opacity = 1) => {
     const colors = {
-      Carrot: 'rgba(255, 99, 132', // Red
-      Tomato: 'rgba(54, 162, 235', // Blue
-      Potato: 'rgba(75, 192, 192', // Green
+      Carrot: 'rgba(255, 99, 132',
+      Tomato: 'rgba(54, 162, 235',
+      Potato: 'rgba(75, 192, 192',
     };
     return `${colors[vegetable] || 'rgba(255, 159, 64'} , ${opacity})`;
-  };
-
-  const getColorForPrice = (price, avgPrice) => {
-    if (price < avgPrice) {
-      return 'rgba(75, 192, 192, 0.2)'; // Light Green for below average
-    } else if (price > avgPrice) {
-      return 'rgba(255, 99, 132, 0.2)'; // Light Red for above average
-    } else {
-      return 'rgba(255, 159, 64, 0.2)'; // Light Orange for average
-    }
   };
 
   const handleManageProductsClick = () => {
@@ -155,37 +174,38 @@ const AAdmin_PricePrediction = () => {
     <div className="min-h-screen bg-gray-100">
       <BB_FNavbar />
 
-      {/* Dashboard Header */}
-      <header className="bg-green-500 text-white py-12">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl font-bold">Price Prediction Dashboard</h1>
-          <p className="mt-4">Overview of Price Prediction statistics</p>
-        </div>
-      </header>
+      <div
+        className="bg-cover bg-center h-96 flex items-center justify-center text-white text-4xl font-bold"
+        style={{
+          backgroundImage: `url(${BannerImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        Future Market Prices
+      </div>
 
-      {/* Dashboard Summary */}
       <div className="max-w-6xl mx-auto p-8">
-        {/* Line Chart */}
         <div className="bg-white p-6 rounded shadow mb-8">
           <h4 className="text-xl font-semibold mb-4">Price Trends</h4>
           {lineData ? <Line data={lineData} /> : <p>Loading chart...</p>}
         </div>
 
-        {/* Bar Chart */}
-        <div className="bg-white p-6 rounded shadow">
+        <div className="bg-white p-6 rounded shadow mb-8">
           <h4 className="text-xl font-semibold mb-4">Price Comparison</h4>
           {barData ? <Bar data={barData} /> : <p>Loading chart...</p>}
         </div>
+
+        <div className="bg-white p-6 rounded shadow mb-8">
+          <h4 className="text-xl font-semibold mb-4">Linear Regression Price Predictions</h4>
+          {predictionData ? <Bar data={predictionData} /> : <p>Loading predictions...</p>}
+        </div>
       </div>
 
-      {showDropdown && (
-        <div className="dropdown" style={{ position: 'absolute', top: '50px', left: '50%' }}>
-          <button onClick={handleCloseDropdown} className="text-red-500">X</button>
-        </div>
-      )}
+      {/* Chatbot */}
+      <ChatbotAssistant />
     </div>
   );
 };
-
 
 export default AAdmin_PricePrediction;
