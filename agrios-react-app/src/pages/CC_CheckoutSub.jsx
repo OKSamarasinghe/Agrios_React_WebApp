@@ -21,30 +21,29 @@ const CC_Checkout = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your form submission logic here
     console.log('Card details submitted:', cardDetails);
   };
 
   const navigate = useNavigate();
 
   const handleProceedToPay = () => {
-    // Add any payment logic here if needed
-
-    // Send email
+    // Prepare email parameters
     const templateParams = {
-      to_email: 'sohanweerasinghe17@gmail.com',
+      to_email: 'osxkvx@gmail.com',  // Recipient email
       customer_name: cardDetails.cardHolder,
       code: 'PR7788', // Example code; replace with dynamic value if needed
     };
 
-    emailjs.send('service_qswx5ss', 'template_p9lci8n', templateParams, 'hkJjQroBVGLt6BKg7')
+    // Send email using EmailJS
+    emailjs.send('service_val55ka', 'template_ef3t9l7', templateParams, 'auV0gByrma0xwDetO')
       .then((response) => {
-        console.log('Email sent successfully:', response);
-        // After sending email, navigate to Order Confirmation page
-        navigate('/sub-order');
+        console.log('✅ Email sent successfully:', response);
+        alert('Payment successful! Confirmation email sent.');
+        navigate('/sub-order');  // Redirect after payment
       })
       .catch((error) => {
-        console.log('Failed to send email:', error);
+        console.error('❌ Failed to send email:', error);
+        alert('Payment failed! Please try again.');
       });
   };
 
@@ -128,7 +127,7 @@ const CC_Checkout = () => {
         </div>
         <button
           onClick={handleProceedToPay}
-          type="submit"
+          type="button"
           className="btn bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 w-full"
         >
           Pay Now
